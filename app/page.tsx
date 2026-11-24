@@ -1,6 +1,8 @@
 import './home.css';
 
-import { Dining, Gym, Island, Library, LockScreen, ParkingWidgets } from './previews';
+import type { CSSProperties, ReactNode } from 'react';
+
+import { LockScreen } from './previews';
 
 const base = process.env.NEXT_PUBLIC_BASE_PATH ?? '';
 const APP_STORE_URL = 'javascript:void(0)';
@@ -19,43 +21,93 @@ function AppStoreButton() {
   );
 }
 
-const DAY = [
+type Group = { name: ReactNode; note: ReactNode; shots: [string, string][] };
+
+const keep = (t: string) => <span className="lp-keep">{t}</span>;
+
+// Each group spans one grid column per screenshot (the import card counts as one).
+const GROUPS: (Group | 'import')[] = [
   {
-    time: '7:52',
-    meridiem: 'AM',
-    title: 'Lot 30 still has room.',
-    body: 'Open spaces for every lot, straight from UCR Transportation. Star the one you use and it sits on your Home Screen.',
-    preview: <ParkingWidgets />,
+    name: 'dining',
+    note: 'all four halls, nutrition, diet filters',
+    shots: [
+      ['dining', 'Glasgow dinner menu by station'],
+      ['nutrition', 'Nutrition facts for a dish'],
+      ['filters', 'Diet and allergen filters'],
+    ],
+  },
+  'import',
+  { name: 'study rooms', note: <>Rivera & Orbach, 7 days out</>, shots: [['library', 'Study room availability at Rivera']] },
+  { name: keep('SRC'), note: 'live headcounts', shots: [['src', 'Live SRC headcounts by area']] },
+  {
+    name: 'events',
+    note: 'everything on campus',
+    shots: [
+      ['events', 'Campus events list'],
+      ['event', 'An event with calendar, share and tickets'],
+    ],
   },
   {
-    time: '10:18',
-    meridiem: 'AM',
-    title: 'Thirty-one minutes of lecture left.',
-    body: 'Each saved class gets a Live Activity. It counts down to the start with walking directions, then counts down to the end.',
-    preview: <Island />,
+    name: 'clubs',
+    note: '600+ clubs',
+    shots: [
+      ['clubs', 'Clubs directory with saved clubs'],
+      ['club', 'A club profile'],
+    ],
   },
   {
-    time: '11:00',
-    meridiem: 'AM',
-    title: 'Lothian has your chicken.',
-    body: 'Star dishes at Glasgow and Lothian. When a meal opens, Belltower tells you which hall is serving more of them.',
-    preview: <Dining />,
+    name: 'safety',
+    note: <>campus status, {keep('UCPD')}, crime log</>,
+    shots: [
+      ['safety', 'Campus status and UCPD contacts'],
+      ['crime-log', 'Map and log of recent reports'],
+    ],
   },
   {
-    time: '2:15',
-    meridiem: 'PM',
-    title: 'A room at Rivera until four.',
-    body: 'Seven days of study room openings at Rivera and Orbach. Pick a slot and finish the booking on LibCal.',
-    preview: <Library />,
-  },
-  {
-    time: '5:30',
-    meridiem: 'PM',
-    title: 'The SRC is quiet.',
-    body: 'Live headcounts for the weight rooms, cardio floor and courts, so you can pick the quiet hour.',
-    preview: <Gym />,
+    name: 'widgets',
+    note: 'parking, dining, events and more',
+    shots: [
+      ['widgets', 'Home Screen widgets for events, study rooms, parking and dining'],
+      ['widgets-2', 'Safety and SRC widgets'],
+      ['lock-widget', 'Dining widget on the Lock Screen'],
+    ],
   },
 ];
+
+function ImportCard() {
+  return (
+    <figure className="lp-group lp-import">
+      <figcaption>
+        <b>classes</b>
+        <span>import from {keep("R'Web")}</span>
+      </figcaption>
+      <div className="imp">
+        <div className="imp-time">
+          0:30
+          <small>under 30 seconds, start to finish</small>
+        </div>
+        <ol className="imp-steps lp-keep">
+          <li>
+            <span className="imp-btn">Import</span>
+          </li>
+          <li>
+            <span className="imp-sso">Sign in to UCR</span>
+          </li>
+          <li>
+            <span className="imp-week" aria-label="Your week, filled in">
+              <i style={{ gridArea: '1 / 1 / 3 / 2' }} />
+              <i style={{ gridArea: '2 / 3 / 4 / 4' }} />
+              <i style={{ gridArea: '1 / 2 / 2 / 3' }} />
+              <i style={{ gridArea: '3 / 2 / 5 / 3' }} />
+              <i style={{ gridArea: '1 / 4 / 3 / 5' }} />
+              <i style={{ gridArea: '3 / 5 / 4 / 6' }} />
+            </span>
+          </li>
+        </ol>
+      </div>
+    </figure>
+  );
+}
 
 export default function Home() {
   return (
@@ -73,7 +125,11 @@ export default function Home() {
       <section className="lp-hero">
         <div className="lp-hero-copy">
           <h1>
-            UCR parking, dining, classes, study rooms and gym. <span className="hl">One app.</span>
+            <span className="lp-h1-lead">The UCR app for </span>
+            <span className="lp-aurora">
+              dining, classes, parking, study rooms, the <span className="lp-keep">SRC</span>, events, clubs, navigation, and
+              safety
+            </span>
           </h1>
           <AppStoreButton />
         </div>
@@ -82,23 +138,33 @@ export default function Home() {
         </div>
       </section>
 
-      <section className="lp-day" aria-labelledby="day">
-        <h2 id="day">One Tuesday on campus</h2>
-        <ol>
-          {DAY.map((entry) => (
-            <li key={entry.time} className="lp-entry">
-              <time>
-                {entry.time}
-                <span>{entry.meridiem}</span>
-              </time>
-              <div className="lp-entry-copy">
-                <h3>{entry.title}</h3>
-                <p>{entry.body}</p>
+      <section className="lp-shots" aria-label="Screenshots">
+        {GROUPS.map((g) =>
+          g === 'import' ? (
+            <ImportCard key="import" />
+          ) : (
+            <figure key={g.shots[0][0]} className="lp-group" style={{ '--n': g.shots.length } as CSSProperties}>
+              <figcaption>
+                <b>{g.name}</b>
+                <span>{g.note}</span>
+              </figcaption>
+              <div className="lp-group-row">
+                {g.shots.map(([file, alt]) => (
+                  <img
+                    key={file}
+                    className="lp-shot"
+                    src={`${base}/screens/${file}.jpg`}
+                    alt={alt}
+                    width={602}
+                    height={1308}
+                    loading="lazy"
+                    decoding="async"
+                  />
+                ))}
               </div>
-              <div className="lp-entry-preview">{entry.preview}</div>
-            </li>
-          ))}
-        </ol>
+            </figure>
+          ),
+        )}
       </section>
 
       <section className="lp-siri">

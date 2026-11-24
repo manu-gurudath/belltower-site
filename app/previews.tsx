@@ -4,35 +4,44 @@ const base = process.env.NEXT_PUBLIC_BASE_PATH ?? '';
 
 export function LockScreen() {
   return (
-    <div className="pv-lock" aria-label="Belltower class Live Activity on the iPhone Lock Screen">
-      <p className="pv-lock-date">Tuesday, November 24</p>
-      <p className="pv-lock-time">9:48</p>
-      <div className="pv-la">
-        <div className="pv-la-body">
-          <img className="pv-la-tower" src={`${base}/tower.png`} alt="" />
-          <div className="pv-la-main">
-            <div className="pv-row">
-              <div>
-                <div className="pv-code">CS 111</div>
-                <div className="pv-sub">Lecture 001</div>
-              </div>
-              <span className="pv-btn">Directions</span>
-            </div>
-            <div className="pv-row pv-row-end">
-              <div>
-                <div className="pv-lbl">Room</div>
-                <div className="pv-hero">268</div>
-              </div>
-              <div className="pv-right">
-                <div className="pv-lbl">Starts in</div>
-                <div className="pv-count">12:04</div>
-              </div>
-            </div>
+    <div className="pv-phone" aria-label="Belltower class Live Activity on the iPhone Lock Screen">
+      <span className="pv-key pv-key-action" aria-hidden />
+      <span className="pv-key pv-key-volup" aria-hidden />
+      <span className="pv-key pv-key-voldown" aria-hidden />
+      <span className="pv-key pv-key-power" aria-hidden />
+      <div className="pv-bezel">
+        <div className="pv-screen">
+          <span className="pv-island" aria-hidden />
+          <div className="pv-status" aria-hidden>
+            <span>AT&amp;T</span>
+            <span className="pv-status-r">
+              <svg viewBox="0 0 18 12" width="18" height="12">
+                <rect x="0" y="8" width="3" height="4" rx="1" />
+                <rect x="5" y="5.5" width="3" height="6.5" rx="1" />
+                <rect x="10" y="3" width="3" height="9" rx="1" />
+                <rect x="15" y="0" width="3" height="12" rx="1" />
+              </svg>
+              <svg viewBox="0 0 16 12" width="16" height="12">
+                <path d="M8 11.6 5.6 9.2a3.4 3.4 0 0 1 4.8 0L8 11.6Zm-4.2-4.2-1.5-1.5a8.1 8.1 0 0 1 11.4 0l-1.5 1.5a6 6 0 0 0-8.4 0ZM.4 4 0 3.6l-1-1A12.8 12.8 0 0 1 17 2.6L15.6 4A10.8 10.8 0 0 0 .4 4Z" transform="translate(0 .2)" />
+              </svg>
+              <span className="pv-batt"><i /></span>
+            </span>
           </div>
-        </div>
-        <div className="pv-la-foot">
-          <span>Skye Hall</span>
-          <span className="pv-dim">10:00 – 10:50 AM</span>
+          <svg className="pv-padlock" viewBox="0 0 12 16" width="12" height="16" aria-hidden>
+            <path d="M3 7V4.5a3 3 0 0 1 6 0V7" fill="none" stroke="currentColor" strokeWidth="1.6" />
+            <rect x="0.5" y="7" width="11" height="8.5" rx="2" />
+          </svg>
+          <div className="pv-lock">
+            <p className="pv-lock-date">Tuesday, November 24</p>
+            <p className="pv-lock-time">3:01</p>
+            <img
+              className="pv-la-shot"
+              src={`${base}/live-activity.png`}
+              width={610}
+              height={244}
+              alt="WRIT 010S, Lecture 007, Sproul Hall room 1102, starts in 58:28"
+            />
+          </div>
         </div>
       </div>
     </div>
@@ -55,7 +64,6 @@ export function ParkingWidgets() {
       <div className="pv-w pv-w-s" aria-label="Parking widget, small">
         <div className="pv-w-head">
           <span>Lot 30</span>
-          <span className="pv-star">★</span>
         </div>
         <div className="pv-big">
           1,914 <span className="pv-unit">open</span>
@@ -89,7 +97,8 @@ export function ParkingWidgets() {
 
 export function Island() {
   return (
-    <div className="pv-stack" aria-label="Class Live Activity in the Dynamic Island">
+    <div className="pv-stack pv-stack-center" aria-label="Class Live Activity in the Dynamic Island and on the Lock Screen">
+      <div className="pv-caption">Dynamic Island</div>
       <div className="pv-pill">
         <span className="pv-pill-l">
           <span className="pv-ring" />
@@ -97,7 +106,8 @@ export function Island() {
         </span>
         <span className="pv-count-s">31:40</span>
       </div>
-      <div className="pv-isl">
+      <div className="pv-caption">Live Activity</div>
+      <div className="pv-isl pv-la">
         <div className="pv-row">
           <div>
             <div className="pv-code">CS 111</div>
@@ -131,7 +141,7 @@ export function Dining() {
   return (
     <div className="pv-stack">
       <div className="pv-note" aria-label="Belltower notification">
-        <img className="pv-app" src={`${base}/icon.png`} alt="" width={34} height={34} />
+        <img className="pv-app" src={`${base}/icon.png`} alt="" width={38} height={38} />
         <div>
           <div className="pv-row">
             <strong>Go to Lothian for lunch</strong>
