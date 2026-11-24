@@ -1,6 +1,7 @@
 import './home.css';
 
 import { HeroPhoto } from './hero-photo';
+import { PingScroll } from './ping-scroll';
 import type { CSSProperties, ReactNode } from 'react';
 
 
@@ -21,7 +22,7 @@ function AppStoreButton() {
   );
 }
 
-type Group = { name: ReactNode; note: ReactNode; shots: [string, string][] };
+type Group = { name: ReactNode; note: ReactNode; shots: [string, string][]; ping?: boolean };
 
 const keep = (t: string) => <span className="lp-keep">{t}</span>;
 
@@ -30,6 +31,7 @@ const GROUPS: (Group | 'import')[] = [
   {
     name: 'dining',
     note: 'all four halls, nutrition, diet filters',
+    ping: true,
     shots: [
       ['dining', 'Glasgow dinner menu by station'],
       ['nutrition', 'Nutrition facts for a dish'],
@@ -74,6 +76,37 @@ const GROUPS: (Group | 'import')[] = [
   },
 ];
 
+// Favorite-dish alert, laid over the first dining screen.
+function FavoriteNote() {
+  return (
+    <div className="pv-note ping-note lp-keep" aria-label="Belltower notification: Butter Chicken is being served at Glasgow">
+      <img className="pv-app" src={`${base}/icon.png`} alt="" width={38} height={38} />
+      <div>
+        <div className="pv-row">
+          <small className="ping-ts">Time Sensitive</small>
+          <span className="pv-dim">now</span>
+        </div>
+        <strong>Go to Glasgow for lunch</strong>
+        <p>Butter Chicken is being served</p>
+      </div>
+    </div>
+  );
+}
+
+function PingTag() {
+  return (
+    <span className="ping-tag">
+      <svg viewBox="0 0 48 40" aria-hidden>
+        <path d="M4 34c14 2 26-6 34-24" />
+        <path d="M30 12l8-3 3 8" />
+      </svg>
+      <span>
+        <strong>favorite dishes</strong> ping you when they&rsquo;re served
+      </span>
+    </span>
+  );
+}
+
 function ImportCard() {
   return (
     <figure className="lp-group lp-import">
@@ -83,8 +116,7 @@ function ImportCard() {
       </figcaption>
       <div className="imp">
         <div className="imp-time">
-          0:30
-          <small>under 30 seconds, start to finish</small>
+          <small>import all your classes in under 30 seconds</small>
         </div>
         <ol className="imp-steps lp-keep">
           <li>
@@ -214,6 +246,7 @@ export default function Home() {
       </section>
 
       <section className="lp-shots" aria-label="Screenshots">
+        <PingScroll />
         {GROUPS.map((g) =>
           g === 'import' ? (
             <ImportCard key="import" />
@@ -224,18 +257,33 @@ export default function Home() {
                 <span>{g.note}</span>
               </figcaption>
               <div className="lp-group-row">
-                {g.shots.map(([file, alt]) => (
-                  <img
-                    key={file}
-                    className="lp-shot"
-                    src={`${base}/screens/${file}.jpg`}
-                    alt={alt}
-                    width={602}
-                    height={1308}
-                    loading="lazy"
-                    decoding="async"
-                  />
-                ))}
+                {g.shots.map(([file, alt], i) => {
+                  const img = (
+                    <img
+                      key={file}
+                      className="lp-shot"
+                      src={`${base}/screens/${file}.jpg`}
+                      alt={alt}
+                      width={602}
+                      height={1308}
+                      loading="lazy"
+                      decoding="async"
+                    />
+                  );
+                  return g.ping && i === 0 ? (
+                    <div key={file} className="ping-shot">
+                      {img}
+                      <div className="ping-layer">
+                        <div className="ping-drop">
+                          <FavoriteNote />
+                          <PingTag />
+                        </div>
+                      </div>
+                    </div>
+                  ) : (
+                    img
+                  );
+                })}
               </div>
             </figure>
           ),
