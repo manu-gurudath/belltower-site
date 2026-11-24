@@ -1,8 +1,8 @@
 import './home.css';
 
+import { HeroPhoto } from './hero-photo';
 import type { CSSProperties, ReactNode } from 'react';
 
-import { LockScreen } from './previews';
 
 const base = process.env.NEXT_PUBLIC_BASE_PATH ?? '';
 const APP_STORE_URL = 'javascript:void(0)';
@@ -126,16 +126,25 @@ export default function Home() {
         <div className="lp-hero-copy">
           <h1>
             <span className="lp-h1-lead">The UCR app for </span>
-            <span className="lp-aurora">
-              dining, classes, parking, study rooms, the <span className="lp-keep">SRC</span>, events, clubs, navigation, and
-              safety
-            </span>
+            dining, classes, parking, study rooms, the <span className="lp-keep">SRC</span>, events, clubs, navigation, and
+            safety
           </h1>
-          <AppStoreButton />
+          <div className="lp-ctas">
+            <AppStoreButton />
+            <a className="award" href="https://acm-dev.cs.ucr.edu/hacks/cutiehack" target="_blank" rel="noopener noreferrer">
+              <svg viewBox="0 0 24 24" aria-hidden>
+                <path d="M8 21h8M12 17v4M7 4h10v5a5 5 0 0 1-10 0V4ZM7 6H4v1a3 3 0 0 0 3 3M17 6h3v1a3 3 0 0 1-3 3" />
+              </svg>
+              <span>
+                <small>placed</small>
+                <b>
+                  #2 in <span className="lp-keep">UCR&apos;s</span> <span className="lp-keep">CutieHack</span> 2026
+                </b>
+              </span>
+            </a>
+          </div>
         </div>
-        <div className="lp-hero-device">
-          <LockScreen />
-        </div>
+        <HeroPhoto />
       </section>
 
       <section className="lp-shots" aria-label="Screenshots">
