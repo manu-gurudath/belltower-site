@@ -34,7 +34,8 @@ html:has(.lp) body { background: none; }
   align-items: center;
   gap: clamp(32px, 5vw, 80px);
   max-width: 1320px; margin: 0 auto;
-  padding: clamp(24px, 4vw, 56px) var(--pad) 0;
+  /* bottom room is for the Live Activity card hanging off the photo, plus its note */
+  padding: clamp(8px, 1.5vw, 24px) var(--pad) 130px;
 }
 .lp-hero h1 {
   margin: 0 0 clamp(24px, 3vw, 36px);
@@ -43,7 +44,7 @@ html:has(.lp) body { background: none; }
   color: var(--ink);
 }
 .lp-hero-media {
-  position: relative; justify-self: center; margin-bottom: 130px;
+  position: relative; justify-self: center;
   width: min(100%, calc((100svh - 120px) * 3 / 4));
 }
 .lp-hero-photo {
@@ -411,7 +412,7 @@ html:has(.lp) body { background: none; }
 @media (max-width: 900px) {
   .lp-hero { grid-template-columns: 1fr; }
   .lp-hero-media { width: 100%; --lift-stacked: 1; margin-bottom: 116px; }
-  .lp-hero { padding-bottom: 0; }
+  .lp-hero { padding-bottom: 0; padding-top: 16px; }
   .lift { width: min(88vw, 360px); }
 }
 /* Tablet: 4 columns (dining + import, then study rooms + SRC + events, ...) */
