@@ -181,12 +181,45 @@ export default function Home() {
         <p>Ten Siri shortcuts work without setup, from your next class to where to park.</p>
       </section>
 
-      <section className="lp-end">
-        <p className="lp-end-line">
-          <img src={`${base}/tower.png`} alt="" />
-          Belltower, for iPhone.
+      <section className="lp-end" aria-labelledby="price">
+        <h2 id="price">
+          less than one coffee.
+          <br />
+          <span>for the whole year.</span>
+        </h2>
+        <ul className="lp-saves">
+          <li>no circling full lots before class</li>
+          <li>no missing your favorite dish at the other hall</li>
+          <li>no showing up to a packed gym</li>
+        </ul>
+        <p className="lp-trial">
+          <b>try it free for 7 days</b>, then pick a plan
         </p>
-        <AppStoreButton />
+        <div className="lp-plans">
+          <div className="plan">
+            <span className="plan-name">yearly</span>
+            <p className="plan-price">
+              <b>$4.99</b> / year
+            </p>
+            <span className="plan-per">about 42&cent; a month</span>
+          </div>
+          <div className="plan plan-best">
+            <span className="plan-tag">best value</span>
+            <span className="plan-name">
+              lifetime <em>save $4.97</em>
+            </span>
+            <p className="plan-price">
+              <b>$14.99</b> once
+            </p>
+            <span className="plan-per">covers your whole degree</span>
+          </div>
+        </div>
+        <div className="lp-end-cta">
+          <AppStoreButton />
+          <span>
+            paid through the <span className="lp-keep">App Store</span>, no account or sign-in
+          </span>
+        </div>
       </section>
 
       <footer className="lp-foot">
