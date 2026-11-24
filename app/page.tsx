@@ -109,6 +109,72 @@ function ImportCard() {
   );
 }
 
+// Placeholder barcode: deterministic bar widths, not anyone's real student ID.
+const BARS: number[] = (() => {
+  let s = 7;
+  const out: number[] = [];
+  for (let i = 0; i < 64; i++) {
+    s = (s * 48271) % 2147483647;
+    out.push(1 + (s % 3));
+  }
+  return out;
+})();
+
+function BarcodeCard() {
+  let x = 0;
+  const rects = BARS.map((w, i) => {
+    const r = i % 2 === 0 ? <rect key={i} x={x} y={0} width={w} height={60} /> : null;
+    x += w;
+    return r;
+  });
+  return (
+    <div className="pass-card lp-keep" aria-label="SRC barcode in Belltower">
+      <div className="pass-head">
+        <b>Barcode</b>
+        <span>scotty001</span>
+      </div>
+      <div className="pass-body">
+        <svg viewBox={`0 0 ${x} 60`} preserveAspectRatio="none" aria-hidden>
+          {rects}
+        </svg>
+        <span className="pass-num">120 4417 3062 85</span>
+      </div>
+      <i className="pass-bar" aria-hidden />
+    </div>
+  );
+}
+
+function SrcPass() {
+  return (
+    <section className="lp-pass" aria-labelledby="pass">
+      <div className="pass-copy">
+        <h3 id="pass">
+          <span style={{ fontWeight: 300 }}>hate how the {keep('UCRSRC')} app makes you sign every time?</span> belltower remembers who you are and shows your barcode instantly.
+        </h3>
+        <div className="pass-compare">
+          <div className="pass-old">
+            <small>the usual way, every single visit</small>
+            <ol>
+              <li>open the portal</li>
+              <li>sign in to {keep('UCR')}</li>
+              <li>type your NetID and password</li>
+              <li>find the barcode</li>
+            </ol>
+          </div>
+          <div className="pass-new">
+            <small>with Belltower</small>
+            <ol>
+              <li>open Belltower</li>
+              <li>scan in</li>
+            </ol>
+          </div>
+        </div>
+      </div>
+      <BarcodeCard />
+    </section>
+  );
+}
+
 export default function Home() {
   return (
     <div className="lp">
@@ -176,6 +242,8 @@ export default function Home() {
         )}
       </section>
 
+      <SrcPass />
+
       <section className="lp-siri">
         <blockquote>&ldquo;What&rsquo;s for dinner at Glasgow in Belltower?&rdquo;</blockquote>
         <p>Ten Siri shortcuts work without setup, from your next class to where to park.</p>
@@ -191,6 +259,7 @@ export default function Home() {
           <li>no circling full lots before class</li>
           <li>no missing your favorite dish at the other hall</li>
           <li>no showing up to a packed gym</li>
+          <li>no signing in to {keep('UCR')} just to get into the gym</li>
         </ul>
         <p className="lp-trial">
           <b>try it free for 7 days</b>, then pick a plan

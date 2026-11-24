@@ -232,6 +232,48 @@ html:has(.lp) body { background: none; }
 .imp-week i:nth-child(2n) { background: #64d2ff; }
 .imp-week i:nth-child(3n) { background: #30d158; }
 
+/* SRC barcode: the UCR sign-in dance vs one tap */
+.lp-pass {
+  display: grid; grid-template-columns: minmax(0, 1.2fr) minmax(0, 1fr); align-items: center;
+  gap: clamp(36px, 5vw, 80px);
+  max-width: 1320px; margin: 0 auto;
+  padding: clamp(56px, 7vw, 104px) var(--pad);
+  border-top: 1px solid var(--rule);
+}
+.lp-pass h2 {
+  margin: 0 0 18px;
+  font: 800 clamp(36px, 5vw, 68px)/1 var(--brand); letter-spacing: -0.045em;
+}
+.lp-pass h2 span { color: var(--ink-2); font-weight: 400; }
+.pass-copy > p { margin: 0 0 28px; max-width: 30em; color: var(--ink-2); }
+.pass-compare { display: grid; grid-template-columns: 1.4fr 1fr; gap: 14px; max-width: 560px; }
+.pass-compare > div { padding: 16px 18px; border-radius: 18px; }
+.pass-compare small { display: block; margin-bottom: 10px; font-size: 13px; font-weight: 600; }
+.pass-compare ol { margin: 0; padding-left: 1.2em; font-size: 15px; line-height: 1.7; }
+.pass-old { border: 1px solid var(--rule); color: var(--ink-2); }
+.pass-old li { text-decoration: line-through; text-decoration-color: rgba(214, 48, 49, 0.7); text-decoration-thickness: 2px; }
+.pass-new { background: var(--ink); color: #fff; }
+.pass-new small { color: var(--gold); }
+.pass-new li { font-weight: 600; }
+
+.pass-card {
+  justify-self: center; width: min(100%, 420px);
+  overflow: hidden; border-radius: 22px; background: #fff;
+  box-shadow: 0 0 0 1px var(--rule), 0 28px 50px -30px rgba(11, 30, 68, 0.5);
+  font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Text', sans-serif;
+  transform: rotate(2deg);
+}
+.pass-head {
+  display: flex; justify-content: space-between; align-items: baseline;
+  padding: 16px 20px; background: var(--ink); color: #fff;
+}
+.pass-head b { font-size: 20px; font-weight: 700; }
+.pass-head span { font-size: 14px; color: rgba(255, 255, 255, 0.8); }
+.pass-body { display: grid; justify-items: center; gap: 8px; padding: 22px 32px 20px; }
+.pass-body svg { width: 100%; height: 96px; fill: #000; }
+.pass-num { font: 500 15px/1 ui-monospace, 'SF Mono', Menlo, monospace; letter-spacing: 0.08em; color: #222; }
+.pass-bar { display: block; height: 4px; width: 72%; background: var(--gold); }
+
 /* Siri: one full-bleed statement */
 .lp-siri {
   background: var(--ink); color: #fff;
@@ -462,6 +504,7 @@ html:has(.lp) body { background: none; }
 /* ---------- Small screens ---------- */
 @media (max-width: 900px) {
   .lp-hero { grid-template-columns: 1fr; }
+  .lp-pass { grid-template-columns: 1fr; }
   .lp-hero-media { width: 100%; --lift-stacked: 1; margin-bottom: 116px; }
   .lp-hero { padding-bottom: 0; padding-top: 16px; }
   .lift { width: min(88vw, 360px); }
