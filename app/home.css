@@ -187,8 +187,8 @@ html:has(.lp) body { background: none; }
 /* Captions differ in length; pin screens to the bottom so a row's screens line up */
 .lp-group-row, .imp { margin-top: auto; }
 .lp-group figcaption { display: flex; flex-wrap: wrap; align-items: baseline; gap: 2px 10px; margin: 0 0 14px; }
-.lp-group figcaption b { font: 800 clamp(22px, 2vw, 28px)/1 var(--brand); letter-spacing: -0.03em; }
-.lp-group figcaption > span { font-size: 15px; line-height: 1.2; color: var(--ink-2); }
+.lp-group figcaption b { font: 800 clamp(19px, 1.7vw, 25px)/1 var(--brand); letter-spacing: -0.03em; }
+.lp-group figcaption > span { font-size: clamp(12px, 1vw, 14px); line-height: 1.2; color: var(--ink-2); }
 .lp-group-row { display: grid; grid-template-columns: repeat(var(--n), minmax(0, 1fr)); gap: inherit; column-gap: clamp(14px, 1.6vw, 24px); }
 .lp-shot {
   display: block; width: 100%; height: auto; aspect-ratio: 602 / 1308;
