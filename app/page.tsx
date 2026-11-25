@@ -313,14 +313,14 @@ export default function Home() {
           <b>try it free for 7 days</b>, then pick a plan
         </p>
         <div className="lp-plans">
-          <div className="plan">
+          <div className="plan plan-selected">
             <span className="plan-name">yearly</span>
             <p className="plan-price">
               <b>$4.99</b> / year
             </p>
             <span className="plan-per">about 42&cent; a month</span>
           </div>
-          <div className="plan plan-best">
+          <div className="plan">
             <span className="plan-tag">best value</span>
             <span className="plan-name">
               lifetime <em>save $4.97</em>

@@ -22,6 +22,8 @@ html:has(.lp) body { background: none; }
 .lp-top {
   display: flex; justify-content: space-between; align-items: center;
   padding: 22px var(--pad);
+  padding-top: 50px;
+  padding-bottom: 40px;
 }
 .lp-brand { display: inline-flex; align-items: center; gap: 10px; text-decoration: none; font: 700 19px/1 var(--brand); letter-spacing: -0.01em; }
 .lp-brand img { width: 32px; height: 32px; border-radius: 8px; }
@@ -194,7 +196,10 @@ html:has(.lp) body { background: none; }
   display: block; width: 100%; height: auto; aspect-ratio: 602 / 1308;
   border-radius: clamp(20px, 2.6vw, 34px);
   background: #f2f2f7;
-  box-shadow: 0 0 0 1px var(--rule), 0 24px 48px -28px rgba(11, 30, 68, 0.45);
+  box-shadow:
+    0 0 0 4px rgba(255, 255, 255, 0.72),
+    0 0 0 5px rgba(11, 30, 68, 0.14),
+    0 24px 48px -22px rgba(11, 30, 68, 0.55);
 }
 
 /* R'Web import: tap, sign in, done */
@@ -326,7 +331,7 @@ html:has(.lp) body { background: none; }
 .plan-price { margin: 12px 0 8px; line-height: 1; font-size: 15px; color: var(--ink-2); }
 .plan-price b { font: 800 42px/1 var(--brand); letter-spacing: -0.04em; color: var(--ink); margin-right: 2px; }
 .plan-per { font-size: 14px; color: var(--ink-2); }
-.plan-best {
+.plan-selected {
   border-color: transparent; background: #fff;
   box-shadow: 0 0 0 1.5px var(--ink), 0 28px 50px -30px rgba(11, 30, 68, 0.45);
 }
@@ -339,7 +344,7 @@ html:has(.lp) body { background: none; }
 .lp-end-cta > span { font-size: 13px; color: var(--ink-2); }
 @media (max-width: 560px) {
   .lp-plans { grid-template-columns: 1fr; width: 100%; max-width: 320px; gap: 20px; }
-  .lp-plans .plan-best { order: -1; }
+  .lp-plans .plan-selected { order: -1; }
 }
 
 .lp-foot {
