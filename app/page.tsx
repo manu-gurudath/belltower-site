@@ -6,7 +6,7 @@ import type { CSSProperties, ReactNode } from 'react';
 
 
 const base = process.env.NEXT_PUBLIC_BASE_PATH ?? '';
-const APP_STORE_URL = 'javascript:void(0)';
+const APP_STORE_URL = 'https://apps.apple.com/us/app/belltower-for-ucr/id6837758300';
 
 function AppStoreButton() {
   return (
