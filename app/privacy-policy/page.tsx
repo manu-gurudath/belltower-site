@@ -77,7 +77,7 @@ export default function PrivacyPolicy() {
       <h2>Purchases</h2>
       <p>
         Payments are handled by Apple. We never see your name, email or payment details. To check whether you&apos;ve
-        started the free week or bought Belltower, the app uses{' '}
+        started the free trial or bought Belltower, the app uses{' '}
         <a href="https://www.revenuecat.com/privacy">RevenueCat</a>, which receives a random anonymous ID created by
         the app, your purchase history from Apple, and basic device details such as the iOS version and country. This
         isn&apos;t linked to your identity and isn&apos;t used for advertising or tracking.

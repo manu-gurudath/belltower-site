@@ -310,7 +310,7 @@ export default function Home() {
           <li>no signing in to {keep('UCR')} just to get into the gym</li>
         </ul>
         <p className="lp-trial">
-          <b>try it free for 7 days</b>, then pick a plan
+          <b>try it free for 14 days</b>, then pick a plan
         </p>
         <div className="lp-plans">
           <div className="plan plan-selected">
