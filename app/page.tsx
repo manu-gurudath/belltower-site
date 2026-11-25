@@ -181,7 +181,7 @@ function SrcPass() {
     <section className="lp-pass" aria-labelledby="pass">
       <div className="pass-copy">
         <h3 id="pass">
-          <span style={{ fontWeight: 300 }}>hate how the {keep('UCRSRC')} app makes you sign every time?</span> belltower remembers who you are and shows your barcode instantly.
+          <span style={{ fontWeight: 300 }}>hate how the {keep('UCRSRC')} app makes you sign every time?</span> belltower lets you get in with just a tap.
         </h3>
         <div className="pass-compare">
           <div className="pass-old">
