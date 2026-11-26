@@ -40,10 +40,29 @@ html:has(.lp) body { background: none; }
   padding: clamp(8px, 1.5vw, 24px) var(--pad) 130px;
 }
 .lp-hero h1 {
-  margin: 0 0 clamp(24px, 3vw, 36px);
+  margin: 0 0 clamp(18px, 2vw, 26px);
   font: 800 clamp(34px, 4.2vw, 62px)/1.04 var(--brand);
   letter-spacing: -0.045em;
   color: var(--ink);
+  text-wrap: balance;
+  max-width: 14em;
+}
+/* Feature chips: scannable at a glance */
+.lp-chips {
+  list-style: none; margin: 0 0 clamp(28px, 3.2vw, 40px); padding: 0;
+  display: flex; flex-wrap: wrap; gap: 8px;
+  max-width: 34em;
+}
+.lp-chips li {
+  display: inline-flex; align-items: center; gap: 7px;
+  padding: 8px 14px 8px 11px; border-radius: 999px;
+  background: rgba(11, 30, 68, 0.055);
+  font: 600 clamp(14px, 1.1vw, 16px)/1.1 var(--brand); letter-spacing: -0.01em;
+  color: var(--ink); white-space: nowrap;
+}
+.lp-chips svg {
+  width: 1.1em; height: 1.1em; flex: none;
+  fill: none; stroke: #b07800; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round;
 }
 .lp-hero-media {
   position: relative; justify-self: center;
@@ -164,23 +183,24 @@ html:has(.lp) body { background: none; }
 .award {
   display: inline-flex; align-items: center; gap: 8px;
   height: 46px; padding: 0 16px 0 12px; border-radius: 10px;
-  border: 1.5px solid var(--rule); background: rgba(255, 184, 28, 0.12);
+  border: 1px solid var(--rule); background: transparent;
   color: var(--ink); text-decoration: none;
   font: 700 15px/1 var(--brand); letter-spacing: -0.01em;
   transition: border-color 0.15s;
 }
-.award:hover { border-color: var(--gold); }
+.award:hover { border-color: var(--gold); background: rgba(255, 184, 28, 0.1); }
 .award:focus-visible { outline: 3px solid var(--gold); outline-offset: 3px; }
 .award svg { width: 22px; height: 22px; fill: none; stroke: #b07800; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; }
 .award > span { display: flex; flex-direction: column; gap: 2px; }
 .award b { font-weight: 700; white-space: nowrap; }
-.award small { font-size: 10px; font-weight: 500; color: var(--ink-2); }
+.award small { font-size: 10px; font-weight: 600; letter-spacing: 0.06em; color: #b07800; }
 .store:focus-visible { outline: 3px solid var(--gold); outline-offset: 3px; }
 
 /* Screenshots: one column per screen, grouped by feature */
 .lp-shots {
   display: grid;
-  grid-template-columns: repeat(5, minmax(0, 1fr));
+  grid-template-columns: repeat(6, minmax(0, 1fr));
+  grid-auto-flow: row dense;
   gap: clamp(40px, 4vw, 56px) clamp(14px, 1.6vw, 24px);
   max-width: 1320px; margin: 0 auto;
   padding: clamp(56px, 7vw, 104px) var(--pad);
@@ -540,12 +560,53 @@ html:has(.lp) body { background: none; }
   .lp-hero-media { width: 100%; --lift-stacked: 1; margin-bottom: 116px; }
   .lp-hero { padding-bottom: 0; padding-top: 16px; }
   .lift { width: min(88vw, 360px); }
+  /* Stacked hero: tidy equal-width grid instead of ragged pills */
+  .lp-chips { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 6px; max-width: 30em; }
+  .lp-chips li { border-radius: 10px; padding: 9px 10px; font-size: 14px; white-space: normal; }
 }
-/* Tablet: 4 columns (dining + import, then study rooms + SRC + events, ...) */
-@media (max-width: 1100px) {
-  .lp-shots { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+/* Tablet/desktop: each feature is a bento card.
+   Cards grow in proportion to their screen count (--n) and the gap between screens is
+   exactly twice the card padding, so every screen comes out the same width whatever
+   card it sits in. --u is one screen's share of a row; rows hold 6 (desktop) or 4 (tablet). */
+@media (min-width: 641px) {
+  .lp-shots {
+    --p: clamp(14px, 1.3vw, 18px);
+    --g: clamp(12px, 1.1vw, 16px);
+    --r: clamp(20px, 2.4vw, 30px);
+    --u: calc((100% - 2 * var(--g)) / 6 - 1px);
+    display: flex; flex-wrap: wrap; justify-content: center;
+    gap: var(--g);
+    padding-inline: min(var(--pad), 40px);
+  }
+  .lp-group {
+    box-sizing: border-box;
+    flex: var(--n) 1 calc(var(--n) * var(--u));
+    padding: calc(var(--p) + 4px) var(--p) var(--p);
+    border-radius: calc(var(--r) + var(--p));
+    background: linear-gradient(180deg, #fffdf8, #faf6ee);
+    box-shadow:
+      0 0 0 1px rgba(11, 30, 68, 0.06),
+      0 1px 2px rgba(11, 30, 68, 0.04),
+      0 24px 48px -32px rgba(11, 30, 68, 0.22);
+  }
+  .lp-group figcaption { flex-direction: column; gap: 4px; margin: 0 0 calc(var(--p) + 2px); padding-inline: 4px; }
+  .lp-group figcaption b { font-size: clamp(18px, 1.5vw, 22px); }
+  .lp-group-row { column-gap: calc(2 * var(--p)); }
+  .lp-shot, .imp, .ping-layer { border-radius: var(--r); }
+  .lp-shot {
+    box-shadow:
+      0 0 0 1px rgba(11, 30, 68, 0.08),
+      0 12px 24px -16px rgba(11, 30, 68, 0.35);
+  }
+  .imp { box-shadow: 0 12px 24px -16px rgba(11, 30, 68, 0.45); }
 }
-/* Phone: 2 columns; three-screen groups scroll sideways, import card goes wide */
+/* Tablet: rows of 4 screens. Clubs moves up beside events; safety ends centred */
+@media (min-width: 641px) and (max-width: 1100px) {
+  .lp-shots { --u: calc((100% - var(--g)) / 4 - 1px); }
+  .lp-g-course, .lp-g-widgets, .lp-g-src, .lp-g-safety { order: 1; }
+  .lp-g-safety { flex-grow: 0; }
+}
+/* Phone: 2 columns; groups of three or more screens scroll sideways */
 @media (max-width: 640px) {
   .lp-shots { grid-template-columns: repeat(2, minmax(0, 1fr)); }
   .lp-group { grid-column: span min(var(--n), 2); }
@@ -557,16 +618,7 @@ html:has(.lp) body { background: none; }
        (shadow reaches 44px below), then pull the layout back with negative margins */
     margin: -12px calc(-1 * var(--pad)) -52px; padding: 12px var(--pad) 52px; scroll-padding: 0 var(--pad);
   }
-  .lp-group-row .lp-shot, .ping-shot { scroll-snap-align: start; }
-  .lp-import { grid-column: span 2; }
-  /* Wide card on phones: sizes in px, steps in a row */
-  .lp-import .imp { aspect-ratio: auto; gap: 22px; padding: 24px 20px; }
-  .lp-import .imp-time small { font-size: 22px; }
-  .lp-import .imp-steps { grid-template-columns: repeat(3, minmax(0, 1fr)); align-items: center; gap: 10px; }
-  .lp-import .imp-steps li + li::before { display: none; }
-  .lp-import .imp-btn, .lp-import .imp-sso { height: 46px; font-size: 15px; padding: 0 6px; }
-  .lp-import .imp-week { grid-template-rows: repeat(4, 9px); gap: 3px; padding: 7px; border-radius: 12px; }
-  .lp-import .imp-week i { border-radius: 3px; }
+  .lp-group-row .lp-shot, .lp-group-row .imp, .ping-shot { scroll-snap-align: start; }
   .ping-note {
     padding: clamp(7px, 2.2cqw, 9px) clamp(8px, 2.6cqw, 10px) clamp(7px, 2.2cqw, 9px) clamp(7px, 2.2cqw, 8px);
     border-radius: clamp(14px, 5cqw, 18px);

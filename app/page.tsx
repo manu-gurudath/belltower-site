@@ -22,12 +22,23 @@ function AppStoreButton() {
   );
 }
 
-type Group = { name: ReactNode; note: ReactNode; shots: [string, string][]; ping?: boolean };
+// Hero feature chips: [label, 24x24 stroke icon path]
+const CHIPS: [string, string][] = [
+  ['dining menus', 'M7 3v8M5 3v5a2 2 0 0 0 4 0V3M7 11v10M17 21V3c-2 1-3 4-3 7h3'],
+  ['class countdowns', 'M12 8v5l3 2M12 21a8 8 0 1 0 0-16 8 8 0 0 0 0 16ZM10 2h4'],
+  ['book study rooms', 'M4 20h16M6 20V9l6-5 6 5v11M10 20v-5h4v5'],
+  ['live SRC crowds', 'M9 11a3 3 0 1 0 0-6 3 3 0 0 0 0 6ZM3 20a6 6 0 0 1 12 0M16 5a3 3 0 0 1 0 6M18 14a5 5 0 0 1 3 6'],
+  ['campus events', 'M4 6h16v14H4zM4 10h16M8 3v4M16 3v4'],
+  ['600+ clubs', 'M12 3l2.6 5.3 5.9.9-4.3 4.1 1 5.8L12 16.4 6.8 19.1l1-5.8-4.3-4.1 5.9-.9z'],
+];
+
+type Group = { name: ReactNode; note: ReactNode; shots: [string, string][]; ping?: boolean; lead?: ReactNode };
 
 const keep = (t: string) => <span className="lp-keep">{t}</span>;
 
 // Each group spans one grid column per screenshot (the import card counts as one).
-const GROUPS: (Group | 'import')[] = [
+// With dense flow, this order fills every row at 6 columns (desktop), 4 (tablet) and 2 (phone).
+const GROUPS: Group[] = [
   {
     name: 'dining',
     note: 'all four halls, nutrition, diet filters',
@@ -38,15 +49,23 @@ const GROUPS: (Group | 'import')[] = [
       ['filters', 'Diet and allergen filters'],
     ],
   },
-  'import',
   { name: 'study rooms', note: <>Rivera & Orbach, 7 days out</>, shots: [['library', 'Study room availability at Rivera']] },
-  { name: keep('SRC'), note: 'live headcounts', shots: [['src', 'Live SRC headcounts by area']] },
   {
     name: 'events',
     note: 'everything on campus',
     shots: [
       ['events', 'Campus events list'],
       ['event', 'An event with calendar, share and tickets'],
+    ],
+  },
+  {
+    name: 'classes',
+    note: <>import from {keep("R'Web")}, seats, prereqs, professor ratings</>,
+    lead: <ImportCard />,
+    shots: [
+      ['course', 'A class with open seats, description and restrictions'],
+      ['prereqs', 'Prerequisites and lecture sections'],
+      ['professor', 'Professor ratings and student reviews'],
     ],
   },
   {
@@ -58,20 +77,21 @@ const GROUPS: (Group | 'import')[] = [
     ],
   },
   {
-    name: 'safety',
-    note: <>campus status, {keep('UCPD')}, crime log</>,
-    shots: [
-      ['safety', 'Campus status and UCPD contacts'],
-      ['crime-log', 'Map and log of recent reports'],
-    ],
-  },
-  {
     name: 'widgets',
     note: 'parking, dining, events and more',
     shots: [
       ['widgets', 'Home Screen widgets for events, study rooms, parking and dining'],
       ['widgets-2', 'Safety and SRC widgets'],
       ['lock-widget', 'Dining widget on the Lock Screen'],
+    ],
+  },
+  { name: keep('SRC'), note: 'live headcounts', shots: [['src', 'Live SRC headcounts by area']] },
+  {
+    name: 'safety',
+    note: <>campus status, {keep('UCPD')}, crime log</>,
+    shots: [
+      ['safety', 'Campus status and UCPD contacts'],
+      ['crime-log', 'Map and log of recent reports'],
     ],
   },
 ];
@@ -109,35 +129,29 @@ function PingTag() {
 
 function ImportCard() {
   return (
-    <figure className="lp-group lp-import">
-      <figcaption>
-        <b>classes</b>
-        <span>import from {keep("R'Web")}</span>
-      </figcaption>
-      <div className="imp">
-        <div className="imp-time">
-          <small>import all your classes in under 30 seconds</small>
-        </div>
-        <ol className="imp-steps lp-keep">
-          <li>
-            <span className="imp-btn">Import</span>
-          </li>
-          <li>
-            <span className="imp-sso">Sign in to UCR</span>
-          </li>
-          <li>
-            <span className="imp-week" aria-label="Your week, filled in">
-              <i style={{ gridArea: '1 / 1 / 3 / 2' }} />
-              <i style={{ gridArea: '2 / 3 / 4 / 4' }} />
-              <i style={{ gridArea: '1 / 2 / 2 / 3' }} />
-              <i style={{ gridArea: '3 / 2 / 5 / 3' }} />
-              <i style={{ gridArea: '1 / 4 / 3 / 5' }} />
-              <i style={{ gridArea: '3 / 5 / 4 / 6' }} />
-            </span>
-          </li>
-        </ol>
+    <div className="imp">
+      <div className="imp-time">
+        <small>import all your classes in under 30 seconds</small>
       </div>
-    </figure>
+      <ol className="imp-steps lp-keep">
+        <li>
+          <span className="imp-btn">Import</span>
+        </li>
+        <li>
+          <span className="imp-sso">Sign in to UCR</span>
+        </li>
+        <li>
+          <span className="imp-week" aria-label="Your week, filled in">
+            <i style={{ gridArea: '1 / 1 / 3 / 2' }} />
+            <i style={{ gridArea: '2 / 3 / 4 / 4' }} />
+            <i style={{ gridArea: '1 / 2 / 2 / 3' }} />
+            <i style={{ gridArea: '3 / 2 / 5 / 3' }} />
+            <i style={{ gridArea: '1 / 4 / 3 / 5' }} />
+            <i style={{ gridArea: '3 / 5 / 4 / 6' }} />
+          </span>
+        </li>
+      </ol>
+    </div>
   );
 }
 
@@ -223,10 +237,18 @@ export default function Home() {
       <section className="lp-hero">
         <div className="lp-hero-copy">
           <h1>
-            <span className="lp-h1-lead">The UCR app for </span>
-            dining, classes, parking, study rooms, the <span className="lp-keep">SRC</span>, events, clubs, navigation, and
-            safety
+            the free ucr app for everything on campus
           </h1>
+          <ul className="lp-chips" aria-label="Features">
+            {CHIPS.map(([label, d]) => (
+              <li key={label}>
+                <svg viewBox="0 0 24 24" aria-hidden>
+                  <path d={d} />
+                </svg>
+                {label}
+              </li>
+            ))}
+          </ul>
           <div className="lp-ctas">
             <AppStoreButton />
             <a className="award" href="https://acm-dev.cs.ucr.edu/hacks/cutiehack" target="_blank" rel="noopener noreferrer">
@@ -247,16 +269,18 @@ export default function Home() {
 
       <section className="lp-shots" aria-label="Screenshots">
         <PingScroll />
-        {GROUPS.map((g) =>
-          g === 'import' ? (
-            <ImportCard key="import" />
-          ) : (
-            <figure key={g.shots[0][0]} className="lp-group" style={{ '--n': g.shots.length } as CSSProperties}>
+        {GROUPS.map((g) => (
+            <figure
+              key={g.shots[0][0]}
+              className={`lp-group lp-g-${g.shots[0][0]}`}
+              style={{ '--n': g.shots.length + (g.lead ? 1 : 0) } as CSSProperties}
+            >
               <figcaption>
                 <b>{g.name}</b>
                 <span>{g.note}</span>
               </figcaption>
               <div className="lp-group-row">
+                {g.lead}
                 {g.shots.map(([file, alt], i) => {
                   const img = (
                     <img
@@ -286,8 +310,7 @@ export default function Home() {
                 })}
               </div>
             </figure>
-          ),
-        )}
+        ))}
       </section>
 
       <SrcPass />

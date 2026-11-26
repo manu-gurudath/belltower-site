@@ -177,7 +177,7 @@ export function HeroPhoto() {
               <div className="lift-top">
                 <div className="lift-info">
                   <b className="lift-code">WRIT 010S</b>
-                  <span className="lift-sub">Lecture 007 · Anne Sulli…</span>
+                  <span className="lift-sub">Lecture 007 · Anne Sullivan</span>
                 </div>
                 <div className="lift-slot">
                   <span className="lift-dir lift-pre">
