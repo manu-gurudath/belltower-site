@@ -308,9 +308,7 @@ export default function Home() {
           <div className="lp-end-cta">
             <AppStoreButton />
             <span>
-              no subscription
-              <br />
-              no ads, no account
+              no account or subscription
             </span>
           </div>
         </div>
