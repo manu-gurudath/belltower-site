@@ -572,7 +572,7 @@ html:has(.lp) body { background: none; }
   .lp-shots {
     --p: clamp(14px, 1.3vw, 18px);
     --g: clamp(12px, 1.1vw, 16px);
-    --r: clamp(20px, 2.4vw, 30px);
+    --r: clamp(16px, 1.7vw, 22px);
     --u: calc((100% - 2 * var(--g)) / 6 - 1px);
     display: flex; flex-wrap: wrap; justify-content: center;
     gap: var(--g);
@@ -582,7 +582,7 @@ html:has(.lp) body { background: none; }
     box-sizing: border-box;
     flex: var(--n) 1 calc(var(--n) * var(--u));
     padding: calc(var(--p) + 4px) var(--p) var(--p);
-    border-radius: calc(var(--r) + var(--p));
+    border-radius: clamp(18px, 1.8vw, 24px);
     background: linear-gradient(180deg, #fffdf8, #faf6ee);
     box-shadow:
       0 0 0 1px rgba(11, 30, 68, 0.06),

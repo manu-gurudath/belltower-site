@@ -176,7 +176,7 @@ function BarcodeCard() {
   return (
     <div className="pass-card lp-keep" aria-label="SRC barcode in Belltower">
       <div className="pass-head">
-        <b>Barcode</b>
+        <b>SRC Pass</b>
         <span>scotty001</span>
       </div>
       <div className="pass-body">
