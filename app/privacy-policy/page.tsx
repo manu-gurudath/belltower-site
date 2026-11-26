@@ -54,8 +54,8 @@ export default function PrivacyPolicy() {
         </h1>
         <div className="pp-meta">
           <span className="pp-chip pp-chip-gold">no account</span>
-          <span className="pp-chip">no ads</span>
-          <span className="pp-chip">no analytics</span>
+          <span className="pp-chip">anonymous analytics</span>
+          <span className="pp-chip">no ad networks</span>
           <span className="pp-updated">last updated november 26, 2026</span>
         </div>
       </section>
@@ -64,8 +64,8 @@ export default function PrivacyPolicy() {
         <Section title="the short version">
           <p className="pp-lead">
             <small>in one line</small>
-            Belltower has no accounts, no ads and no analytics. What you save in the app stays on your iPhone. The only
-            information that leaves it is what&apos;s needed to load public campus data.
+            Belltower has no accounts. What you save in the app stays on your iPhone. Besides loading public campus
+            data, the only thing it sends is anonymous usage counts, so we can see which features people use.
           </p>
           <p>
             This policy covers the Belltower iOS app (&ldquo;Belltower&rdquo;, &ldquo;we&rdquo;), made by an
@@ -107,6 +107,27 @@ export default function PrivacyPolicy() {
           <p>
             When you book a study room, the booking is completed on UCR&apos;s LibCal website, under that site&apos;s
             own privacy policy.
+          </p>
+        </Section>
+
+        <Section title="anonymous analytics" note="which features get used">
+          <p>
+            Belltower records anonymous usage events, such as which screens and features you open and which buttons
+            you tap, so we can see which features are popular and what to improve. Along with each event we may
+            receive basic technical details like the app version, iOS version and device model.
+          </p>
+          <p>
+            These events aren&apos;t linked to your name, email address or any account, and they don&apos;t include
+            your class schedule, saved items, location or anything you type. We don&apos;t sell this data, and we
+            don&apos;t use it to track you across other apps or websites.
+          </p>
+        </Section>
+
+        <Section title="ads" note="local businesses only">
+          <p>
+            Belltower doesn&apos;t show ads today. In the future it may show ads from local businesses near campus.
+            If it does, we&apos;ll choose those ads ourselves. Belltower won&apos;t use ad networks like Apple or
+            Google ads, and won&apos;t share your data with advertisers or use it to target ads at you.
           </p>
         </Section>
 
