@@ -27,12 +27,12 @@ export default function PrivacyPolicy() {
       </a>
 
       <h1>Privacy Policy</h1>
-      <p className="updated">Last updated November 23, 2026</p>
+      <p className="updated">Last updated November 26, 2026</p>
 
       <div className="card">
         <p className="lead">
           Belltower has no accounts, no ads and no analytics. What you save in the app stays on your iPhone. The only
-          information that leaves it is what&apos;s needed to load public campus data and to handle purchases.
+          information that leaves it is what&apos;s needed to load public campus data.
         </p>
       </div>
 
@@ -74,15 +74,6 @@ export default function PrivacyPolicy() {
         privacy policy.
       </p>
 
-      <h2>Purchases</h2>
-      <p>
-        Payments are handled by Apple. We never see your name, email or payment details. To check whether you&apos;ve
-        started the free trial or bought Belltower, the app uses{' '}
-        <a href="https://www.revenuecat.com/privacy">RevenueCat</a>, which receives a random anonymous ID created by
-        the app, your purchase history from Apple, and basic device details such as the iOS version and country. This
-        isn&apos;t linked to your identity and isn&apos;t used for advertising or tracking.
-      </p>
-
       <h2>Permissions</h2>
       <ul>
         <li>
@@ -110,8 +101,7 @@ export default function PrivacyPolicy() {
 
       <h2>Your choices</h2>
       <p>
-        You can turn any permission off in Settings, and delete everything Belltower stores by deleting the app. To ask
-        about the anonymous purchase record held by RevenueCat, email us.
+        You can turn any permission off in Settings, and delete everything Belltower stores by deleting the app.
       </p>
 
       <h2>Changes</h2>

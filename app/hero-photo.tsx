@@ -118,10 +118,12 @@ export function HeroPhoto() {
         [ex, ey + ch],
       ];
 
-      // Progress: the first ~35% of a screen of scrolling after the photo is in view
+      // Progress: wait a little longer on stacked phone layouts so the activity
+      // does not start moving as soon as the hero first enters the viewport.
       const top = el.getBoundingClientRect().top + scrollY;
       const from = Math.max(0, top + ph * 0.55 - vh);
-      const p = still ? 1 : ease(clamp((scrollY - from) / (vh * 0.35)));
+      const startDelay = stacked ? vh * 0.18 : 0;
+      const p = still ? 1 : ease(clamp((scrollY - from - startDelay) / (vh * 0.35)));
 
       const now = start.map((s, i) => [
         s[0] + (end[i][0] - s[0]) * p,

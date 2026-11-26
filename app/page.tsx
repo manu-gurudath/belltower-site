@@ -299,9 +299,9 @@ export default function Home() {
 
       <section className="lp-end" aria-labelledby="price">
         <h2 id="price">
-          less than one coffee.
+          free.
           <br />
-          <span>for the whole year.</span>
+          <span>for every Highlander.</span>
         </h2>
         <ul className="lp-saves">
           <li>no circling full lots before class</li>
@@ -309,33 +309,9 @@ export default function Home() {
           <li>no showing up to a packed gym</li>
           <li>no signing in to {keep('UCR')} just to get into the gym</li>
         </ul>
-        <p className="lp-trial">
-          <b>try it free for 14 days</b>. no payment information required.
-        </p>
-        <div className="lp-plans">
-          <div className="plan plan-selected">
-            <span className="plan-name">yearly</span>
-            <p className="plan-price">
-              <b>$4.99</b> / year
-            </p>
-            <span className="plan-per">about 42&cent; a month</span>
-          </div>
-          <div className="plan">
-            <span className="plan-tag">best value</span>
-            <span className="plan-name">
-              lifetime <em>save $4.97</em>
-            </span>
-            <p className="plan-price">
-              <b>$14.99</b> once
-            </p>
-            <span className="plan-per">covers your whole degree</span>
-          </div>
-        </div>
         <div className="lp-end-cta">
           <AppStoreButton />
-          <span>
-            paid through the <span className="lp-keep">App Store</span>, no account or sign-in
-          </span>
+          <span>no subscription, no ads, no account</span>
         </div>
       </section>
 
