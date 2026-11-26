@@ -298,20 +298,30 @@ export default function Home() {
       </section>
 
       <section className="lp-end" aria-labelledby="price">
-        <h2 id="price">
-          free.
-          <br />
-          <span>for every Highlander.</span>
-        </h2>
-        <ul className="lp-saves">
-          <li>no circling full lots before class</li>
-          <li>no missing your favorite dish at the other hall</li>
-          <li>no showing up to a packed gym</li>
-          <li>no signing in to {keep('UCR')} just to get into the gym</li>
-        </ul>
-        <div className="lp-end-cta">
-          <AppStoreButton />
-          <span>no subscription, no ads, no account</span>
+        <div className="lp-end-main">
+          <img className="lp-end-icon" src={`${base}/icon.png`} alt="" width={84} height={84} />
+          <h2 id="price">
+            free.
+            <br />
+            <span>for every Highlander.</span>
+          </h2>
+          <div className="lp-end-cta">
+            <AppStoreButton />
+            <span>
+              no subscription
+              <br />
+              no ads, no account
+            </span>
+          </div>
+        </div>
+        <div className="lp-saves">
+          <small>no more</small>
+          <ul>
+            <li><s>circling full lots before class</s></li>
+            <li><s>missing your favorite dish at the other hall</s></li>
+            <li><s>showing up to a packed gym</s></li>
+            <li><s>signing in to {keep('UCR')} just to get into the gym</s></li>
+          </ul>
         </div>
       </section>
 
