@@ -649,13 +649,13 @@ html:has(.lp) body { background: none; }
 
 /* Phone: chips become a quiet two-column spec list with hairline rules */
 @media (max-width: 640px) {
-  .lp-chips {
-    gap: 0 16px; max-width: none;
-    border-top: 1px solid var(--rule);
-  }
+  /* rules run unbroken across both columns, only between rows (no outer frame) */
+  .lp-chips { gap: 0; max-width: none; }
+  .lp-chips li:nth-child(even) { padding-left: 16px; }
+  .lp-chips li:nth-child(n + 3) { border-top: 1px solid rgba(11, 30, 68, 0.1); }
   .lp-chips li {
-    gap: 9px; padding: 13px 0; border-radius: 0;
-    background: none; border-bottom: 1px solid var(--rule);
+    gap: 9px; padding: 12px 0; border-radius: 0;
+    background: none;
     font: 600 clamp(13.5px, 3.9vw, 15px)/1.2 var(--brand); letter-spacing: -0.015em;
     white-space: nowrap; min-width: 0;
   }
