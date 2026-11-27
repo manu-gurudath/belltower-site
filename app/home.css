@@ -64,6 +64,7 @@ html:has(.lp) body { background: none; }
   width: 1.1em; height: 1.1em; flex: none;
   fill: none; stroke: #b07800; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round;
 }
+.lp-hero-copy { min-width: 0; }
 .lp-hero-media {
   position: relative; justify-self: center;
   width: min(100%, calc((100svh - 120px) * 3 / 4));
@@ -166,35 +167,54 @@ html:has(.lp) body { background: none; }
 
 /* App Store badge, drawn to Apple's black badge proportions */
 .store {
-  display: inline-flex; align-items: center; gap: 8px;
-  height: 46px; padding: 0 18px 0 14px;
+  display: inline-flex; align-items: center; gap: 9px;
+  height: 50px; padding: 0 20px 0 16px;
   background: #000; color: #fff !important; text-decoration: none;
-  border-radius: 10px;
-  font: 600 18px/1 -apple-system, 'SF Pro Display', var(--brand), sans-serif;
+  border-radius: 12px;
+  font: 600 19px/1 -apple-system, 'SF Pro Display', var(--brand), sans-serif;
   letter-spacing: -0.02em;
+  transition: background 0.2s;
 }
-.store svg { width: 21px; height: 21px; fill: currentColor; margin-top: -3px; }
+.store:hover { background: #1c1c1e; }
+.store svg { width: 22px; height: 22px; fill: currentColor; margin-top: -3px; }
 .store span { display: flex; flex-direction: column; gap: 2px; }
-.store small { font-size: 9.5px; font-weight: 500; letter-spacing: 0; }
+.store small { font-size: 10px; font-weight: 500; letter-spacing: 0; }
 /* Apple's badge and the widget / live activity previews keep their real casing */
 .store { text-transform: none; }
 .lp-ctas { display: flex; flex-wrap: wrap; align-items: center; gap: 12px; }
-/* Award badge: same height as the store badge, outlined so the store stays primary */
+/* Award: quiet hairline chip, same height as the store badge. Gold only on the trophy. */
 .award {
-  display: inline-flex; align-items: center; gap: 8px;
-  height: 46px; padding: 0 16px 0 12px; border-radius: 10px;
-  border: 1px solid var(--rule); background: transparent;
+  display: inline-flex; align-items: center; gap: 12px;
+  height: 50px; padding: 0 20px 0 16px; border-radius: 12px;
+  border: 1px solid rgba(11, 30, 68, 0.14);
   color: var(--ink); text-decoration: none;
-  font: 700 15px/1 var(--brand); letter-spacing: -0.01em;
-  transition: border-color 0.15s;
+  transition: border-color 0.2s, background 0.2s;
 }
-.award:hover { border-color: var(--gold); background: rgba(255, 184, 28, 0.1); }
+.award:hover { border-color: rgba(176, 120, 0, 0.45); background: rgba(255, 253, 248, 0.6); }
 .award:focus-visible { outline: 3px solid var(--gold); outline-offset: 3px; }
-.award svg { width: 22px; height: 22px; fill: none; stroke: #b07800; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; }
-.award > span { display: flex; flex-direction: column; gap: 2px; }
-.award b { font-weight: 700; white-space: nowrap; }
-.award small { font-size: 10px; font-weight: 600; letter-spacing: 0.06em; color: #b07800; }
+.award i { display: contents; }
+.award svg { flex: none; width: 22px; height: 22px; fill: none; stroke: #b07800; stroke-width: 1.5; stroke-linecap: round; stroke-linejoin: round; }
+.award > span { display: flex; flex-direction: column; gap: 4px; padding-left: 12px; border-left: 1px solid rgba(11, 30, 68, 0.12); }
+.award b { font: 700 15px/1 var(--brand); letter-spacing: -0.015em; white-space: nowrap; }
+.award small { font: 500 11px/1 var(--brand); letter-spacing: 0.02em; color: var(--ink-2); white-space: nowrap; }
 .store:focus-visible { outline: 3px solid var(--gold); outline-offset: 3px; }
+/* Phones: keep both badges on one row by tightening them instead of wrapping */
+@media (max-width: 640px) {
+  .lp-ctas { flex-wrap: nowrap; gap: 8px; }
+  .store, .award { height: 46px; }
+  .store { flex: none; gap: 7px; padding: 0 14px 0 12px; font-size: 17px; }
+  .store svg { width: 19px; height: 19px; }
+  .store small { font-size: 9px; }
+  .award { flex: 0 1 auto; min-width: 0; gap: 9px; padding: 0 12px; }
+  .award svg { width: 19px; height: 19px; }
+  .award > span { min-width: 0; padding-left: 9px; }
+  .award b { font-size: 14px; }
+  .award small { font-size: 10.5px; letter-spacing: 0; }
+  .award b, .award small { overflow: hidden; text-overflow: ellipsis; }
+}
+@media (max-width: 370px) {
+  .award > span { padding-left: 0; border-left: 0; }
+}
 
 /* Screenshots: one column per screen, grouped by feature */
 .lp-shots {
@@ -510,38 +530,44 @@ html:has(.lp) body { background: none; }
 .ping-layer {
   position: absolute; inset: 0; z-index: 2; overflow: hidden; pointer-events: none;
   border-radius: clamp(20px, 2.6vw, 34px);
-  padding: 6% 4% 0;
+  padding: 4.5cqw 3.5cqw 0;
 }
 /* banner and note slide down together from above the screen's top edge */
 .ping-drop {
   display: flex; flex-direction: column; align-items: flex-start; gap: 10px;
   transform: translateY(calc((1 - var(--ping, 1)) * (-100% - 40px)));
 }
+/* Everything below is sized in cqw of the screen it sits on, so the banner and note
+   keep iOS proportions whether the screen is 150px or 300px wide */
+.ping-drop { gap: 3cqw; }
 .ping-note {
-  align-self: stretch;
-  padding: 9px 10px 9px 8px; border-radius: 18px; gap: 8px;
-  font-size: 12.5px; line-height: 16px;
-  box-shadow: 0 18px 36px -16px rgba(11, 30, 68, 0.55);
+  align-self: stretch; align-items: flex-start;
+  padding: 3.6cqw 4cqw 3.8cqw 3.4cqw; border-radius: 6.5cqw; gap: 3cqw;
+  font-size: clamp(9px, 6.4cqw, 13px); line-height: 1.25; letter-spacing: -0.01em;
+  background: rgba(40, 40, 44, 0.86);
+  box-shadow: 0 0 0 0.5px rgba(255, 255, 255, 0.08) inset, 0 6cqw 12cqw -6cqw rgba(11, 30, 68, 0.6);
 }
-.ping-note .pv-app { width: 30px; height: 30px; border-radius: 7px; }
-.ping-note strong { display: block; }
-.ping-note .pv-dim { font-size: 11px; }
-.ping-ts { font-size: 10px; font-weight: 600; letter-spacing: 0.03em; text-transform: uppercase; color: rgba(235, 235, 245, 0.6); }
+.ping-note .pv-app { width: 11cqw; height: 11cqw; border-radius: 2.6cqw; margin-top: 0.4cqw; }
+.ping-note .pv-row { gap: 2cqw; }
+.ping-note strong { font-weight: 600; }
+.ping-note .pv-dim { font-size: 0.85em; }
+.ping-note p { opacity: 0.92; }
 .ping-tag {
-  display: flex; align-items: flex-start; gap: 6px;
-  margin-left: 6px; padding: 8px 12px 9px 8px; border-radius: 14px;
+  display: flex; align-items: flex-start; gap: 2cqw;
+  margin-left: 3cqw; padding: 2.6cqw 4cqw 2.8cqw 2.6cqw; border-radius: 4.5cqw;
+  max-width: 88%;
   /* near-opaque paper with a heavy blur, so the screen behind reads as texture, not text */
   background: rgba(243, 238, 227, 0.8);
   -webkit-backdrop-filter: blur(24px) saturate(140%);
   backdrop-filter: blur(24px) saturate(140%);
   box-shadow: 0 0 0 1px var(--rule), 0 14px 28px -12px rgba(11, 30, 68, 0.45);
-  font: 400 13px/1.35 var(--brand); color: var(--ink-2);
+  font: 400 clamp(9px, 6cqw, 12.5px)/1.3 var(--brand); color: var(--ink-2);
 }
 .ping-tag > span { text-wrap: pretty; }
 .ping-tag strong { font-weight: 600; color: var(--ink); }
 /* same arrow as the hero note, curving up into the banner */
 .ping-tag svg {
-  flex: none; width: 26px; height: 22px; margin-top: -4px;
+  flex: none; width: 1.9em; height: 1.6em; margin-top: -0.3em;
   transform: scaleX(-1) rotate(-20deg);
   fill: none; stroke: var(--ink-2); stroke-width: 1.5; stroke-linecap: round; stroke-linejoin: round;
 }
@@ -619,19 +645,22 @@ html:has(.lp) body { background: none; }
     margin: -12px calc(-1 * var(--pad)) -52px; padding: 12px var(--pad) 52px; scroll-padding: 0 var(--pad);
   }
   .lp-group-row .lp-shot, .lp-group-row .imp, .ping-shot { scroll-snap-align: start; }
-  .ping-note {
-    padding: clamp(7px, 2.2cqw, 9px) clamp(8px, 2.6cqw, 10px) clamp(7px, 2.2cqw, 9px) clamp(7px, 2.2cqw, 8px);
-    border-radius: clamp(14px, 5cqw, 18px);
-    gap: clamp(6px, 2.2cqw, 8px);
-    background: rgba(58, 58, 60, 0.92);
-    font-size: clamp(10px, 3cqw, 12.5px);
-    line-height: 1.25;
+}
+
+/* Phone: chips become a quiet two-column spec list with hairline rules */
+@media (max-width: 640px) {
+  .lp-chips {
+    gap: 0 16px; max-width: none;
+    border-top: 1px solid var(--rule);
   }
-  .ping-note .pv-app {
-    width: clamp(24px, 8.3cqw, 30px);
-    height: clamp(24px, 8.3cqw, 30px);
-    border-radius: clamp(6px, 2cqw, 7px);
+  .lp-chips li {
+    gap: 9px; padding: 13px 0; border-radius: 0;
+    background: none; border-bottom: 1px solid var(--rule);
+    font: 600 clamp(13.5px, 3.9vw, 15px)/1.2 var(--brand); letter-spacing: -0.015em;
+    white-space: nowrap; min-width: 0;
   }
-  .ping-note .pv-dim { font-size: clamp(9px, 2.6cqw, 11px); }
-  .ping-ts { font-size: clamp(8px, 2.4cqw, 10px); }
+  .lp-chips svg { width: 17px; height: 17px; stroke-width: 1.8; }
+}
+@media (max-width: 359px) {
+  .lp-chips li { white-space: normal; align-items: flex-start; }
 }

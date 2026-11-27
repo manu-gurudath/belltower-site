@@ -103,10 +103,9 @@ function FavoriteNote() {
       <img className="pv-app" src={`${base}/icon.png`} alt="" width={38} height={38} />
       <div>
         <div className="pv-row">
-          <small className="ping-ts">Time Sensitive</small>
+          <strong>Go to Glasgow for lunch</strong>
           <span className="pv-dim">now</span>
         </div>
-        <strong>Go to Glasgow for lunch</strong>
         <p>Butter Chicken is being served</p>
       </div>
     </div>
@@ -252,14 +251,18 @@ export default function Home() {
           <div className="lp-ctas">
             <AppStoreButton />
             <a className="award" href="https://acm-dev.cs.ucr.edu/hacks/cutiehack" target="_blank" rel="noopener noreferrer">
-              <svg viewBox="0 0 24 24" aria-hidden>
-                <path d="M8 21h8M12 17v4M7 4h10v5a5 5 0 0 1-10 0V4ZM7 6H4v1a3 3 0 0 0 3 3M17 6h3v1a3 3 0 0 1-3 3" />
-              </svg>
+              <i aria-hidden>
+                <svg viewBox="0 0 24 24">
+                  <path d="M8 21h8M12 17v4M7 4h10v5a5 5 0 0 1-10 0V4ZM7 6H4v1a3 3 0 0 0 3 3M17 6h3v1a3 3 0 0 1-3 3" />
+                </svg>
+              </i>
               <span>
-                <small>placed</small>
                 <b>
-                  #2 in <span className="lp-keep">UCR&apos;s</span> <span className="lp-keep">CutieHack</span> 2026
+                  #2 at <span className="lp-keep">CutieHack</span>
                 </b>
+                <small>
+                  <span className="lp-keep">UCR&apos;s</span> hackathon, 2026
+                </small>
               </span>
             </a>
           </div>
