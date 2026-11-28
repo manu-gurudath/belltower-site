@@ -1,6 +1,7 @@
 import type { Metadata } from 'next';
 
 import { findInvite, normalizeCode } from '../../../lib/server/invites';
+import { GetButton } from './get-button';
 import './invite.css';
 
 const APP_STORE_URL = 'https://apps.apple.com/us/app/belltower-for-ucr/id6837758300';
@@ -49,10 +50,8 @@ export default async function InvitePage({ params }: Props) {
           <a className="inv-primary" href={`belltower://invite/${code}`}>
             Open in Belltower
           </a>
-          <a className="inv-secondary" href={APP_STORE_URL}>
-            Get Belltower
-          </a>
-          <p className="inv-note">After installing, tap this link again.</p>
+          <GetButton className="inv-secondary" href={APP_STORE_URL} link={`https://belltower.bymanu.me/i/${code}`} />
+          <p className="inv-note">After installing, open Belltower and tap Paste.</p>
         </>
       ) : (
         <>
