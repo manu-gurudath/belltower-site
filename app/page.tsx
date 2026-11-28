@@ -1,8 +1,7 @@
 import './home.css';
 
 import { HeroPhoto } from './hero-photo';
-import { PingScroll } from './ping-scroll';
-import type { CSSProperties, ReactNode } from 'react';
+import { Tour } from './tour';
 
 
 const base = process.env.NEXT_PUBLIC_BASE_PATH ?? '';
@@ -25,200 +24,14 @@ function AppStoreButton() {
 // Hero feature chips: [label, 24x24 stroke icon path]
 const CHIPS: [string, string][] = [
   ['dining menus', 'M7 3v8M5 3v5a2 2 0 0 0 4 0V3M7 11v10M17 21V3c-2 1-3 4-3 7h3'],
+  ['friends\' schedules', 'M9 11a3 3 0 1 0 0-6 3 3 0 0 0 0 6ZM3 20a6 6 0 0 1 12 0M16 5a3 3 0 0 1 0 6M18 14a5 5 0 0 1 3 6'],
   ['class countdowns', 'M12 8v5l3 2M12 21a8 8 0 1 0 0-16 8 8 0 0 0 0 16ZM10 2h4'],
   ['book study rooms', 'M4 20h16M6 20V9l6-5 6 5v11M10 20v-5h4v5'],
-  ['live SRC crowds', 'M9 11a3 3 0 1 0 0-6 3 3 0 0 0 0 6ZM3 20a6 6 0 0 1 12 0M16 5a3 3 0 0 1 0 6M18 14a5 5 0 0 1 3 6'],
-  ['campus events', 'M4 6h16v14H4zM4 10h16M8 3v4M16 3v4'],
-  ['600+ clubs', 'M12 3l2.6 5.3 5.9.9-4.3 4.1 1 5.8L12 16.4 6.8 19.1l1-5.8-4.3-4.1 5.9-.9z'],
+  ['live SRC crowds', 'M4 9v6M8 6v12M16 6v12M20 9v6M8 12h8'],
+  ['events & 600+ clubs', 'M4 6h16v14H4zM4 10h16M8 3v4M16 3v4'],
 ];
-
-type Group = { name: ReactNode; note: ReactNode; shots: [string, string][]; ping?: boolean; lead?: ReactNode };
 
 const keep = (t: string) => <span className="lp-keep">{t}</span>;
-
-// Each group spans one grid column per screenshot (the import card counts as one).
-// With dense flow, this order fills every row at 6 columns (desktop), 4 (tablet) and 2 (phone).
-const GROUPS: Group[] = [
-  {
-    name: 'dining',
-    note: 'all four halls, nutrition, diet filters',
-    ping: true,
-    shots: [
-      ['dining', 'Glasgow dinner menu by station'],
-      ['nutrition', 'Nutrition facts for a dish'],
-      ['filters', 'Diet and allergen filters'],
-    ],
-  },
-  { name: 'study rooms', note: <>Rivera & Orbach, 7 days out</>, shots: [['library', 'Study room availability at Rivera']] },
-  {
-    name: 'events',
-    note: 'everything on campus',
-    shots: [
-      ['events', 'Campus events list'],
-      ['event', 'An event with calendar, share and tickets'],
-    ],
-  },
-  {
-    name: 'classes',
-    note: <>import from {keep("R'Web")}, seats, prereqs, professor ratings</>,
-    lead: <ImportCard />,
-    shots: [
-      ['course', 'A class with open seats, description and restrictions'],
-      ['prereqs', 'Prerequisites and lecture sections'],
-      ['professor', 'Professor ratings and student reviews'],
-    ],
-  },
-  {
-    name: 'clubs',
-    note: '600+ clubs',
-    shots: [
-      ['clubs', 'Clubs directory with saved clubs'],
-      ['club', 'A club profile'],
-    ],
-  },
-  {
-    name: 'widgets',
-    note: 'parking, dining, events and more',
-    shots: [
-      ['widgets', 'Home Screen widgets for events, study rooms, parking and dining'],
-      ['widgets-2', 'Safety and SRC widgets'],
-      ['lock-widget', 'Dining widget on the Lock Screen'],
-    ],
-  },
-  { name: keep('SRC'), note: 'live headcounts', shots: [['src', 'Live SRC headcounts by area']] },
-  {
-    name: 'safety',
-    note: <>campus status, {keep('UCPD')}, crime log</>,
-    shots: [
-      ['safety', 'Campus status and UCPD contacts'],
-      ['crime-log', 'Map and log of recent reports'],
-    ],
-  },
-];
-
-// Favorite-dish alert, laid over the first dining screen.
-function FavoriteNote() {
-  return (
-    <div className="pv-note ping-note lp-keep" aria-label="Belltower notification: Butter Chicken is being served at Glasgow">
-      <img className="pv-app" src={`${base}/icon.png`} alt="" width={38} height={38} />
-      <div>
-        <div className="pv-row">
-          <strong>Go to Glasgow for lunch</strong>
-          <span className="pv-dim">now</span>
-        </div>
-        <p>Butter Chicken is being served</p>
-      </div>
-    </div>
-  );
-}
-
-function PingTag() {
-  return (
-    <span className="ping-tag">
-      <svg viewBox="0 0 48 40" aria-hidden>
-        <path d="M4 34c14 2 26-6 34-24" />
-        <path d="M30 12l8-3 3 8" />
-      </svg>
-      <span>
-        <strong>favorite dishes</strong> ping you when they&rsquo;re served
-      </span>
-    </span>
-  );
-}
-
-function ImportCard() {
-  return (
-    <div className="imp">
-      <div className="imp-time">
-        <small>import all your classes in under 30 seconds</small>
-      </div>
-      <ol className="imp-steps lp-keep">
-        <li>
-          <span className="imp-btn">Import</span>
-        </li>
-        <li>
-          <span className="imp-sso">Sign in to UCR</span>
-        </li>
-        <li>
-          <span className="imp-week" aria-label="Your week, filled in">
-            <i style={{ gridArea: '1 / 1 / 3 / 2' }} />
-            <i style={{ gridArea: '2 / 3 / 4 / 4' }} />
-            <i style={{ gridArea: '1 / 2 / 2 / 3' }} />
-            <i style={{ gridArea: '3 / 2 / 5 / 3' }} />
-            <i style={{ gridArea: '1 / 4 / 3 / 5' }} />
-            <i style={{ gridArea: '3 / 5 / 4 / 6' }} />
-          </span>
-        </li>
-      </ol>
-    </div>
-  );
-}
-
-// Placeholder barcode: deterministic bar widths, not anyone's real student ID.
-const BARS: number[] = (() => {
-  let s = 7;
-  const out: number[] = [];
-  for (let i = 0; i < 64; i++) {
-    s = (s * 48271) % 2147483647;
-    out.push(1 + (s % 3));
-  }
-  return out;
-})();
-
-function BarcodeCard() {
-  let x = 0;
-  const rects = BARS.map((w, i) => {
-    const r = i % 2 === 0 ? <rect key={i} x={x} y={0} width={w} height={60} /> : null;
-    x += w;
-    return r;
-  });
-  return (
-    <div className="pass-card lp-keep" aria-label="SRC barcode in Belltower">
-      <div className="pass-head">
-        <b>SRC Pass</b>
-        <span>scotty001</span>
-      </div>
-      <div className="pass-body">
-        <svg viewBox={`0 0 ${x} 60`} preserveAspectRatio="none" aria-hidden>
-          {rects}
-        </svg>
-        <span className="pass-num">120 4417 3062 85</span>
-      </div>
-      <i className="pass-bar" aria-hidden />
-    </div>
-  );
-}
-
-function SrcPass() {
-  return (
-    <section className="lp-pass" aria-labelledby="pass">
-      <div className="pass-copy">
-        <h3 id="pass">
-          <span style={{ fontWeight: 300 }}>hate how the {keep('UCRSRC')} app makes you sign every time?</span> belltower lets you get in with just a tap.
-        </h3>
-        <div className="pass-compare">
-          <div className="pass-old">
-            <small>the usual way, every single visit</small>
-            <ol>
-              <li>open the portal</li>
-              <li>sign in to {keep('UCR')}</li>
-              <li>type your NetID and password</li>
-              <li>find the barcode</li>
-            </ol>
-          </div>
-          <div className="pass-new">
-            <small>with Belltower</small>
-            <ol>
-              <li>open Belltower</li>
-              <li>scan in</li>
-            </ol>
-          </div>
-        </div>
-      </div>
-      <BarcodeCard />
-    </section>
-  );
-}
 
 export default function Home() {
   return (
@@ -270,53 +83,7 @@ export default function Home() {
         <HeroPhoto />
       </section>
 
-      <section className="lp-shots" aria-label="Screenshots">
-        <PingScroll />
-        {GROUPS.map((g) => (
-            <figure
-              key={g.shots[0][0]}
-              className={`lp-group lp-g-${g.shots[0][0]}`}
-              style={{ '--n': g.shots.length + (g.lead ? 1 : 0) } as CSSProperties}
-            >
-              <figcaption>
-                <b>{g.name}</b>
-                <span>{g.note}</span>
-              </figcaption>
-              <div className="lp-group-row">
-                {g.lead}
-                {g.shots.map(([file, alt], i) => {
-                  const img = (
-                    <img
-                      key={file}
-                      className="lp-shot"
-                      src={`${base}/screens/${file}.jpg`}
-                      alt={alt}
-                      width={602}
-                      height={1308}
-                      loading="lazy"
-                      decoding="async"
-                    />
-                  );
-                  return g.ping && i === 0 ? (
-                    <div key={file} className="ping-shot">
-                      {img}
-                      <div className="ping-layer">
-                        <div className="ping-drop">
-                          <FavoriteNote />
-                          <PingTag />
-                        </div>
-                      </div>
-                    </div>
-                  ) : (
-                    img
-                  );
-                })}
-              </div>
-            </figure>
-        ))}
-      </section>
-
-      <SrcPass />
+      <Tour />
 
       <section className="lp-siri">
         <blockquote>&ldquo;What&rsquo;s for dinner at Glasgow in Belltower?&rdquo;</blockquote>
