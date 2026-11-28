@@ -1,6 +1,6 @@
-import { verifyIdentityToken } from '../../../../lib/server/apple';
+import { appleRefreshToken, verifyIdentityToken } from '../../../../lib/server/apple';
 import { cleanName, createSession, publicUser, type User } from '../../../../lib/server/auth';
-import { one } from '../../../../lib/server/db';
+import { one, query } from '../../../../lib/server/db';
 import { body, handle, HttpError, json } from '../../../../lib/server/http';
 
 /**
@@ -8,7 +8,13 @@ import { body, handle, HttpError, json } from '../../../../lib/server/http';
  * Apple returned (only on a person's first sign-in). Email is never requested or stored.
  */
 export const POST = handle(async (req: Request) => {
-  const { identityToken, nonce, name } = await body<{ identityToken?: string; nonce?: string; name?: string }>(req);
+  const { identityToken, nonce, name, authorizationCode, clientId } = await body<{
+    identityToken?: string;
+    nonce?: string;
+    name?: string;
+    authorizationCode?: string;
+    clientId?: string;
+  }>(req);
   if (!identityToken || !nonce) throw new HttpError(400, 'Missing token');
   const sub = await verifyIdentityToken(identityToken, nonce);
 
@@ -21,6 +27,8 @@ export const POST = handle(async (req: Request) => {
        returning id, name, sharing_paused`,
       [sub, cleanName(name) ?? ''],
     ))!;
+  const refresh = authorizationCode && clientId ? await appleRefreshToken(authorizationCode, clientId) : null;
+  if (refresh) await query('update users set apple_refresh_token = $2 where id = $1', [user.id, refresh]);
   const token = await createSession(user.id);
   return json({ token, user: publicUser(user), isNew: !existing });
 });

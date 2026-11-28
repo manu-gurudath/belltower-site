@@ -21,13 +21,13 @@ export const PATCH = handle(async (req: Request) => {
 });
 
 /**
- * Deletes the account and everything tied to it (sessions, schedules, friendships, invites cascade). With a fresh
- * Apple authorization code, also revokes Belltower's Sign in with Apple access.
+ * Deletes the account and everything tied to it (sessions, schedules, friendships, invites cascade), and revokes
+ * Belltower's Sign in with Apple access with the token saved at sign-in.
  */
 export const DELETE = handle(async (req: Request) => {
   const me = await requireUser(req);
-  const { authorizationCode, clientId } = await body<{ authorizationCode?: string; clientId?: string }>(req);
-  const revoked = authorizationCode && clientId ? await revokeAppleSignIn(authorizationCode, clientId) : false;
+  const stored = await one<{ apple_refresh_token: string | null }>('select apple_refresh_token from users where id = $1', [me.id]);
+  const revoked = await revokeAppleSignIn(stored?.apple_refresh_token ?? null);
   await query('delete from users where id = $1', [me.id]);
   return json({ deleted: true, revoked });
 });

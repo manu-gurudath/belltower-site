@@ -17,6 +17,9 @@ create table if not exists sessions (
 );
 create index if not exists sessions_user on sessions (user_id);
 
+-- Apple refresh token, kept only so deleting an account can revoke Sign in with Apple without asking again.
+alter table users add column if not exists apple_refresh_token text;
+
 -- One row per person per term: the compact sections their app uploads.
 create table if not exists schedules (
   user_id uuid not null references users on delete cascade,

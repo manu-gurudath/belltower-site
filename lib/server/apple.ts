@@ -37,31 +37,43 @@ async function clientSecret(clientId: string): Promise<string> {
     .sign(key);
 }
 
+const form = (fields: Record<string, string>) => ({
+  method: 'POST',
+  headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+  body: new URLSearchParams(fields),
+});
+
 /**
- * Exchanges a fresh authorization code for a refresh token and revokes it, so Apple stops listing Belltower under
- * the person's Apple ID. Best effort: account deletion goes ahead even if Apple is unreachable.
+ * At sign-in: trades the one-time authorization code for a refresh token, stored as `clientId:token`, so deleting
+ * the account later can revoke Sign in with Apple without making the person sign in again. Null without a key.
  */
-export async function revokeAppleSignIn(authorizationCode: string, clientId: string): Promise<boolean> {
-  if (!canRevoke() || !CLIENT_IDS.includes(clientId)) return false;
+export async function appleRefreshToken(authorizationCode: string, clientId: string): Promise<string | null> {
+  if (!canRevoke() || !CLIENT_IDS.includes(clientId)) return null;
   try {
-    const secret = await clientSecret(clientId);
-    const form = (fields: Record<string, string>) => ({
-      method: 'POST',
-      headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-      body: new URLSearchParams(fields),
-    });
-    const tokenRes = await fetch(
+    const res = await fetch(
       `${ISSUER}/auth/token`,
-      form({ client_id: clientId, client_secret: secret, code: authorizationCode, grant_type: 'authorization_code' }),
+      form({ client_id: clientId, client_secret: await clientSecret(clientId), code: authorizationCode, grant_type: 'authorization_code' }),
     );
-    if (!tokenRes.ok) return false;
-    const { refresh_token } = (await tokenRes.json()) as { refresh_token?: string };
-    if (!refresh_token) return false;
-    const revokeRes = await fetch(
+    if (!res.ok) return null;
+    const { refresh_token } = (await res.json()) as { refresh_token?: string };
+    return refresh_token ? `${clientId}:${refresh_token}` : null;
+  } catch {
+    return null;
+  }
+}
+
+/** Revokes a stored refresh token, so Apple stops listing Belltower under the person's Apple ID. Best effort. */
+export async function revokeAppleSignIn(stored: string | null): Promise<boolean> {
+  if (!stored || !canRevoke()) return false;
+  const split = stored.indexOf(':');
+  const clientId = stored.slice(0, split);
+  if (!CLIENT_IDS.includes(clientId)) return false;
+  try {
+    const res = await fetch(
       `${ISSUER}/auth/revoke`,
-      form({ client_id: clientId, client_secret: secret, token: refresh_token, token_type_hint: 'refresh_token' }),
+      form({ client_id: clientId, client_secret: await clientSecret(clientId), token: stored.slice(split + 1), token_type_hint: 'refresh_token' }),
     );
-    return revokeRes.ok;
+    return res.ok;
   } catch {
     return false;
   }
