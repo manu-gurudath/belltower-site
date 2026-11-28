@@ -1,14 +1,10 @@
 import type { NextConfig } from 'next';
 
-// Static export for GitHub Pages, served from /belltower-site.
-const basePath = process.env.PAGES_BASE_PATH ?? '';
-
+// Served by Vercel (belltower.bymanu.me): the marketing pages plus the Friends API under /api.
 const config: NextConfig = {
-  output: 'export',
-  basePath,
-  trailingSlash: true,
+  // No trailing-slash redirect: Apple fetches /.well-known/apple-app-site-association and won't follow one.
+  skipTrailingSlashRedirect: true,
   images: { unoptimized: true },
-  env: { NEXT_PUBLIC_BASE_PATH: basePath },
 };
 
 export default config;

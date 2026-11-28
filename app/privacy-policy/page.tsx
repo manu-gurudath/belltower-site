@@ -50,13 +50,14 @@ export default function PrivacyPolicy() {
       <section className="pp-hero">
         <h1>
           <span className="lp-h1-lead">privacy policy. </span>
-          what you save in belltower stays on your <span className="lp-keep">iPhone</span>.
+          what you save in belltower stays on your <span className="lp-keep">iPhone</span>. friends see only what you
+          share.
         </h1>
         <div className="pp-meta">
-          <span className="pp-chip pp-chip-gold">no account</span>
+          <span className="pp-chip pp-chip-gold">account only for friends</span>
           <span className="pp-chip">anonymous analytics</span>
           <span className="pp-chip">no ad networks</span>
-          <span className="pp-updated">last updated november 26, 2026</span>
+          <span className="pp-updated">last updated november 27, 2026</span>
         </div>
       </section>
 
@@ -64,8 +65,9 @@ export default function PrivacyPolicy() {
         <Section title="the short version">
           <p className="pp-lead">
             <small>in one line</small>
-            Belltower has no accounts. What you save in the app stays on your iPhone. Besides loading public campus
-            data, the only thing it sends is anonymous usage counts, so we can see which features people use.
+            Belltower works without an account, and what you save stays on your iPhone. If you choose to use Friends,
+            you sign in with Apple and your class schedule is shared with the friends you add, and no one else.
+            Otherwise, besides loading public campus data, the only thing Belltower sends is anonymous usage counts.
           </p>
           <p>
             This policy covers the Belltower iOS app (&ldquo;Belltower&rdquo;, &ldquo;we&rdquo;), made by an
@@ -78,7 +80,47 @@ export default function PrivacyPolicy() {
           <p>
             Your class schedule, saved events and clubs, starred dishes, dining filters, starred parking lot, tab order
             and other preferences are stored only on your iPhone. Belltower&apos;s widgets and Siri shortcuts read them
-            from there. We never receive them, and deleting the app deletes them.
+            from there. We never receive them, and deleting the app deletes them. The one exception is your class
+            schedule, if you turn on Friends (below).
+          </p>
+        </Section>
+
+        <Section title="friends" note="optional, sign in with apple">
+          <p>
+            Friends lets you and people you invite see each other&apos;s classes. It&apos;s off until you sign in with
+            Apple from the Classes tab. When you do, we store:
+          </p>
+          <ul>
+            <li>
+              <b>An account ID</b> from Sign in with Apple. We don&apos;t ask for your email address and never receive
+              it.
+            </li>
+            <li>
+              <b>Your name</b>, as Apple shares it or as you type it, shown to your friends.
+            </li>
+            <li>
+              <b>Your classes</b> for each term you&apos;ve saved: course, section, title, instructor, days, times,
+              building and room. Not seat counts or anything from your R&apos;Web account.
+            </li>
+            <li>
+              <b>Your friends</b> and when you added them, and invite links you create. Links are stored only as a
+              scrambled code, work for 7 days, and can be turned off.
+            </li>
+          </ul>
+          <p>
+            Only friends you&apos;ve added can see your classes, and they see them only through Belltower. &ldquo;Where
+            they are now&rdquo; is worked out on each phone from the class schedule. Belltower never uses or shares
+            your location for Friends.
+          </p>
+          <p>
+            You can pause sharing, remove any friend (they aren&apos;t notified), turn off your invite links, or delete
+            your account at any time in Classes &rsaquo; Friends &amp; Privacy. Deleting your account erases
+            everything above immediately and revokes Belltower&apos;s Sign in with Apple access. Sign-in sessions end
+            after 180 days without use.
+          </p>
+          <p>
+            This data is kept on servers run by Vercel and Neon in the United States, used only to run Friends, and
+            never sold or used for ads.
           </p>
         </Section>
 
@@ -159,7 +201,10 @@ export default function PrivacyPolicy() {
         </Section>
 
         <Section title="your choices">
-          <p>You can turn any permission off in Settings, and delete everything Belltower stores by deleting the app.</p>
+          <p>
+            You can turn any permission off in Settings. Delete your Friends account in Classes &rsaquo; Friends &amp;
+            Privacy, and everything else by deleting the app.
+          </p>
         </Section>
 
         <Section title="changes">

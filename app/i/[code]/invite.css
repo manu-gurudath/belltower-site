@@ -1,0 +1,33 @@
+html:has(.inv) { background: #f3eee3; color-scheme: light; }
+html:has(.inv) body { background: none; }
+
+.inv {
+  min-height: 100vh;
+  max-width: 420px;
+  margin: 0 auto;
+  padding: 72px 28px 40px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  color: #0b1e44;
+  font: 400 17px/1.5 var(--brand), sans-serif;
+}
+.inv-icon { border-radius: 16px; margin-bottom: 40px; }
+.inv-avatar {
+  width: 76px; height: 76px; border-radius: 50%;
+  display: grid; place-items: center;
+  background: #0b1e44; color: #fff;
+  font: 700 28px/1 var(--brand);
+  margin-bottom: 20px;
+}
+.inv h1 { font: 800 28px/1.15 var(--brand); letter-spacing: -0.02em; margin: 0 0 8px; }
+.inv p { margin: 0 0 32px; color: rgba(11, 30, 68, 0.66); }
+.inv-primary, .inv-secondary {
+  display: block; width: 100%;
+  padding: 16px; border-radius: 999px;
+  font: 700 17px/1 var(--brand); text-decoration: none;
+}
+.inv-primary { background: #0b1e44; color: #fff; margin-bottom: 12px; }
+.inv-secondary { background: rgba(11, 30, 68, 0.08); color: #0b1e44; }
+.inv .inv-note { margin-top: 16px; font-size: 14px; }
