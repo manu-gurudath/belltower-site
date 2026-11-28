@@ -1,5 +1,5 @@
 import { canRevoke, revokeAppleSignIn } from '../../../lib/server/apple';
-import { cleanName, publicUser, requireUser, type User } from '../../../lib/server/auth';
+import { cleanName, publicUser, requireUser, WIDGETS_UNLOCKED, type User } from '../../../lib/server/auth';
 import { one, query } from '../../../lib/server/db';
 import { body, handle, HttpError, json } from '../../../lib/server/http';
 
@@ -12,7 +12,7 @@ export const PATCH = handle(async (req: Request) => {
   const next = name === undefined ? me.name : cleanName(name);
   if (next === null) throw new HttpError(400, 'Name required');
   const paused = typeof sharingPaused === 'boolean' ? sharingPaused : me.sharing_paused;
-  const user = await one<User>('update users set name = $2, sharing_paused = $3 where id = $1 returning id, name, sharing_paused', [
+  const user = await one<User>(`update users u set name = $2, sharing_paused = $3 where id = $1 returning id, name, sharing_paused, ${WIDGETS_UNLOCKED}`, [
     me.id,
     next,
     paused,

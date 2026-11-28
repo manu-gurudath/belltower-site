@@ -3,7 +3,10 @@ import { createHash, randomBytes } from 'node:crypto';
 import { one, query } from './db';
 import { HttpError } from './http';
 
-export type User = { id: string; name: string; sharing_paused: boolean };
+export type User = { id: string; name: string; sharing_paused: boolean; widgets_unlocked: boolean };
+
+/** SQL for a `users u` row's permanent widget unlock (db/schema.sql, widget_unlocks). */
+export const WIDGETS_UNLOCKED = `exists (select 1 from widget_unlocks w where w.sub_hash = sha256(convert_to(u.apple_sub, 'UTF8'))) as widgets_unlocked`;
 
 export const sha256 = (value: string) => createHash('sha256').update(value).digest();
 
@@ -27,14 +30,14 @@ export async function requireUser(req: Request): Promise<User> {
     `update sessions s set last_seen = now()
        from users u
       where s.token_hash = $1 and u.id = s.user_id and s.last_seen > now() - make_interval(days => $2)
-      returning u.id, u.name, u.sharing_paused`,
+      returning u.id, u.name, u.sharing_paused, ${WIDGETS_UNLOCKED}`,
     [sha256(token), SESSION_DAYS],
   );
   if (!user) throw new HttpError(401, 'Sign in required');
   return user;
 }
 
-export const publicUser = (u: User) => ({ id: u.id, name: u.name, sharingPaused: u.sharing_paused });
+export const publicUser = (u: User) => ({ id: u.id, name: u.name, sharingPaused: u.sharing_paused, widgetsUnlocked: u.widgets_unlocked });
 
 /** A display name: trimmed, single-spaced, 1–40 characters. */
 export function cleanName(value: unknown): string | null {

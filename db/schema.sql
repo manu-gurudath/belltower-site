@@ -57,3 +57,14 @@ create table if not exists invite_attempts (
   at timestamptz not null default now()
 );
 create index if not exists invite_attempts_user on invite_attempts (user_id, at);
+
+-- Widgets unlock for good once someone has a friend. Keyed by a hash of the Apple ID, not the user row, so it
+-- outlives either side deleting their account (and comes back if they sign in again). Written once, never removed.
+create table if not exists widget_unlocks (
+  sub_hash bytea primary key,
+  unlocked_at timestamptz not null default now()
+);
+insert into widget_unlocks (sub_hash)
+  select sha256(convert_to(u.apple_sub, 'UTF8')) from users u
+   where exists (select 1 from friendships f where f.a = u.id or f.b = u.id)
+  on conflict do nothing;

@@ -32,6 +32,7 @@ export const GET = handle(async (req: Request) => {
     [me.id, terms],
   );
   return json({
+    widgetsUnlocked: me.widgets_unlocked,
     friends: rows.map((r) => ({
       id: r.id,
       name: r.name,

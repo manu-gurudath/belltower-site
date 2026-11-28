@@ -1,5 +1,5 @@
 import { appleRefreshToken, verifyIdentityToken } from '../../../../lib/server/apple';
-import { cleanName, createSession, publicUser, type User } from '../../../../lib/server/auth';
+import { cleanName, createSession, publicUser, WIDGETS_UNLOCKED, type User } from '../../../../lib/server/auth';
 import { one, query } from '../../../../lib/server/db';
 import { body, handle, HttpError, json } from '../../../../lib/server/http';
 
@@ -18,13 +18,13 @@ export const POST = handle(async (req: Request) => {
   if (!identityToken || !nonce) throw new HttpError(400, 'Missing token');
   const sub = await verifyIdentityToken(identityToken, nonce);
 
-  const existing = await one<User>('select id, name, sharing_paused from users where apple_sub = $1', [sub]);
+  const existing = await one<User>(`select id, name, sharing_paused, ${WIDGETS_UNLOCKED} from users u where apple_sub = $1`, [sub]);
   const user =
     existing ??
     (await one<User>(
-      `insert into users (apple_sub, name) values ($1, $2)
+      `insert into users as u (apple_sub, name) values ($1, $2)
        on conflict (apple_sub) do update set apple_sub = excluded.apple_sub
-       returning id, name, sharing_paused`,
+       returning id, name, sharing_paused, ${WIDGETS_UNLOCKED}`,
       [sub, cleanName(name) ?? ''],
     ))!;
   const refresh = authorizationCode && clientId ? await appleRefreshToken(authorizationCode, clientId) : null;

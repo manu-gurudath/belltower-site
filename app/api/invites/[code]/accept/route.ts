@@ -33,6 +33,13 @@ export const POST = handle(async (req: Request, { params }: Params) => {
       const [a, b] = [me.id, invite.owner].sort();
       const added = await q('insert into friendships (a, b) values ($1, $2) on conflict do nothing returning a', [a, b]);
       if (added.length) await q('update invites set uses = uses + 1 where code_hash = $1', [sha256(code)]);
+      // Both sides unlock widgets for good; the record outlives either account.
+      await q(
+        `insert into widget_unlocks (sub_hash)
+           select sha256(convert_to(apple_sub, 'UTF8')) from users where id = any($1::uuid[])
+         on conflict do nothing`,
+        [[a, b]],
+      );
       return { friend: { id: invite.owner, name: invite.name }, alreadyFriends: added.length === 0 };
     }),
   );
