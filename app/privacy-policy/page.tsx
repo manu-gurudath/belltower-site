@@ -92,8 +92,9 @@ export default function PrivacyPolicy() {
           </p>
           <ul>
             <li>
-              <b>An account ID</b> from Sign in with Apple. We don&apos;t ask for your email address and never receive
-              it.
+              <b>An account ID</b> from Sign in with Apple, and a token from Apple used only to disconnect Belltower
+              from your Apple ID if you delete your account. We don&apos;t ask for your email address and never
+              receive it.
             </li>
             <li>
               <b>Your name</b>, as Apple shares it or as you type it, shown to your friends.
@@ -104,7 +105,7 @@ export default function PrivacyPolicy() {
             </li>
             <li>
               <b>Your friends</b> and when you added them, and invite links you create. Links are stored only as a
-              scrambled code, work for 7 days, and can be turned off.
+              scrambled code, work for 7 days, and can be reset.
             </li>
           </ul>
           <p>
@@ -113,8 +114,8 @@ export default function PrivacyPolicy() {
             your location for Friends.
           </p>
           <p>
-            You can pause sharing, remove any friend (they aren&apos;t notified), turn off your invite links, or delete
-            your account at any time in Classes &rsaquo; Friends &amp; Privacy. Deleting your account erases
+            You can pause sharing, remove any friend (they aren&apos;t notified), reset your invite links, or delete
+            your account at any time in Classes &rsaquo; Friends &rsaquo; Settings. Deleting your account erases
             everything above immediately and revokes Belltower&apos;s Sign in with Apple access. Sign-in sessions end
             after 180 days without use.
           </p>
@@ -202,8 +203,8 @@ export default function PrivacyPolicy() {
 
         <Section title="your choices">
           <p>
-            You can turn any permission off in Settings. Delete your Friends account in Classes &rsaquo; Friends &amp;
-            Privacy, and everything else by deleting the app.
+            You can turn any permission off in Settings. Delete your Friends account in Classes &rsaquo; Friends
+            &rsaquo; Settings, and everything else by deleting the app.
           </p>
         </Section>
 
