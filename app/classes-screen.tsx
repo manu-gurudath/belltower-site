@@ -1,4 +1,4 @@
-// HTML rebuild of the Classes tab, laid out in iOS points (393 x 852) so tour.tsx can animate it.
+// HTML rebuild of the Classes tab in iOS points (393 x 852), so tour.tsx can animate it.
 
 const DAYS = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri'];
 const HOURS = ['8a', '9a', '10a', '11a', '12p', '1p', '2p', '3p'];
@@ -31,15 +31,31 @@ const TABS: [string, string][] = [
   ['More', 'M5 12h.01M12 12h.01M19 12h.01'],
 ];
 
+// The iOS status bar, drawn once so every screen in the tour shows the same one
+export function StatusBar({ time = '9:41' }: { time?: string }) {
+  return (
+    <div className="sb lp-keep">
+      <b className="sb-time">{time}</b>
+      <span>
+        <svg viewBox="0 0 18 12" width="18" height="12">
+          <rect x="0" y="8" width="3" height="4" rx="1" />
+          <rect x="5" y="5.5" width="3" height="6.5" rx="1" />
+          <rect x="10" y="3" width="3" height="9" rx="1" />
+          <rect x="15" y="0" width="3" height="12" rx="1" />
+        </svg>
+        <svg viewBox="0 0 16 12" width="16" height="12">
+          <path d="M8 12 5.4 9.4a3.7 3.7 0 0 1 5.2 0L8 12Zm-4.1-4.1L2.3 6.3a8 8 0 0 1 11.4 0l-1.6 1.6a5.7 5.7 0 0 0-8.2 0ZM.7 4.7-.9 3.1a12.5 12.5 0 0 1 17.8 0l-1.6 1.6a10.2 10.2 0 0 0-14.6 0Z" />
+        </svg>
+        <i className="sb-batt" />
+      </span>
+    </div>
+  );
+}
+
 export function ClassesScreen() {
   return (
-    <div className="cs lp-keep" aria-label="Belltower Classes tab: your week, with Leo and Maya in CS 010B with you right now">
-      <div className="cs-status" aria-hidden>
-        <b>1:20</b>
-        <span className="cs-sig">
-          <i /><i /><i /><i />
-        </span>
-      </div>
+    <div className="cs lp-keep">
+      <StatusBar time="8:00" />
       <span className="cs-term">Fall 2026</span>
       <h4 className="cs-title">Classes</h4>
       <div className="cs-search">
@@ -113,9 +129,9 @@ export function ClassesScreen() {
             </span>
           );
         })}
-        <span className="cs-now" aria-hidden />
+        <span className="cs-now" />
       </div>
-      <nav className="cs-tabs" aria-hidden>
+      <nav className="cs-tabs">
         {TABS.map(([label, d]) => (
           <span key={label} className={label === 'Classes' ? 'on' : undefined}>
             <svg viewBox="0 0 24 24">

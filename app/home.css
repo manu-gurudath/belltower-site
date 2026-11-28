@@ -311,7 +311,7 @@ html:has(.lp) body { background: none; }
 }
 
 /* ---------- Tour: one pinned phone, scrolled through feature by feature (tour.tsx) ---------- */
-.tv { position: relative; height: calc(var(--t) * 42vh + 100vh); }
+.tv { position: relative; height: calc(var(--t) * 52vh + 100vh); }
 .tv-stage {
   position: sticky; top: 0; height: 100vh; height: 100svh;
   display: grid; grid-template-columns: minmax(0, 1fr) auto minmax(150px, 0.5fr); align-items: center;
@@ -325,28 +325,30 @@ html:has(.lp) body { background: none; }
 .tv-index button {
   padding: 4px 0 4px 18px; border: 0; background: none; cursor: pointer;
   font: 500 14px/1.3 var(--mono), monospace; color: var(--ink-2); text-transform: lowercase;
-  opacity: 0.7; transition: opacity 0.2s, color 0.2s;
+  transition: color 0.2s;
 }
-.tv-index button:hover, .tv-index button[aria-current] { opacity: 1; color: var(--ink); }
+.tv-index button:hover, .tv-index button[aria-current] { color: var(--ink); }
 .tv-index button:focus-visible { outline: 2px solid var(--gold); outline-offset: 2px; border-radius: 4px; }
 .tv-mark {
-  position: absolute; left: 0; top: 0; width: 0; height: 1.3em; margin-top: 6px;
-  pointer-events: none;
+  position: absolute; left: 0; top: 0; width: 1px; height: 1.3em; margin-top: 6px;
+  pointer-events: none; transform: translateY(var(--y, 0));
 }
 .tv-mark::before { content: ''; position: absolute; left: 0; top: 0; bottom: 0; width: 6px; border-radius: 3px; background: var(--gold); }
 
 /* Questions roll through a line mask word by word */
 .tv-copy { display: grid; }
-.tv-copy > div { grid-area: 1 / 1; visibility: hidden; }
-.tv-copy > div:first-child { visibility: visible; }
+.tv-copy > div { grid-area: 1 / 1; }
 .tv-copy h2 {
   margin: 0 0 18px; max-width: 9em;
   font: 800 clamp(44px, 5.4vw, 84px)/1 var(--brand); letter-spacing: -0.05em;
 }
-.tv-w { display: inline-block; overflow: hidden; padding-bottom: 0.1em; margin-bottom: -0.1em; vertical-align: top; }
+.tv-w { display: inline-block; overflow: hidden; padding-bottom: 0.18em; margin-bottom: -0.18em; vertical-align: top; }
 .tv-w > span { display: inline-block; transform: translateY(115%); }
 .tv-copy > div:first-child .tv-w > span { transform: none; }
-.tv-copy p { margin: 0; font: 400 15px/1.5 var(--mono), monospace; color: var(--ink-2); }
+.tv-copy p { margin: 0; font: 400 15px/1.5 var(--mono), monospace; color: var(--ink-2); opacity: 0; }
+.tv-copy > div:first-child p { opacity: 1; }
+.tv-sr { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
+.tv-cta { margin-top: 4px; }
 
 /* The phone: 602x1308 screen inside a uniform bezel */
 .tv-device {
@@ -362,14 +364,32 @@ html:has(.lp) body { background: none; }
   position: relative; height: 100%; overflow: hidden; border-radius: 12.8cqw;
   background: #000; container-type: size; isolation: isolate;
 }
-.tv-scr { position: absolute; inset: 0; border-radius: 13cqw; overflow: hidden; visibility: hidden; will-change: transform; background: #f4f0e8; }
+.tv-scr { --pt: calc(100cqw / 393); position: absolute; inset: 0; border-radius: 13cqw; overflow: hidden; visibility: hidden; background: #f2eee3; }
 .tv-scr:first-child { visibility: visible; }
 .tv-scr::after { content: ''; position: absolute; inset: 0; background: #000; opacity: var(--dim, 0); pointer-events: none; }
 .tv-scr > img { display: block; width: 100%; height: 100%; object-fit: cover; }
 .tv-island { position: absolute; z-index: 5; top: 2.8cqw; left: 50%; width: 31cqw; height: 9.2cqw; margin-left: -15.5cqw; border-radius: 9cqw; background: #000; }
 
 /* Overlays that may leave the screen live in an unclipped layer of the same size */
-.tv-over { position: absolute; inset: 3.2cqw; container-type: size; pointer-events: none; z-index: 3; }
+.tv-over { position: absolute; inset: 3.2cqw; container-type: size; pointer-events: none; z-index: 3; visibility: hidden; }
+
+/* One status bar for every app screen, covering each screenshot's own */
+.sb {
+  position: absolute; z-index: 3; top: 0; left: 0; right: 0; height: calc(54 * var(--pt));
+  display: flex; justify-content: space-between; align-items: center;
+  padding: calc(4 * var(--pt)) calc(30 * var(--pt)) 0 calc(50 * var(--pt));
+  background: #f2eee3; color: #000;
+  font: 600 calc(17 * var(--pt))/1 -apple-system, BlinkMacSystemFont, 'SF Pro Text', var(--brand), sans-serif;
+  font-variant-numeric: tabular-nums;
+}
+.sb span { display: flex; align-items: center; gap: calc(6 * var(--pt)); }
+.sb svg { width: calc(18 * var(--pt)); height: auto; fill: currentColor; }
+.sb svg + svg { width: calc(16 * var(--pt)); }
+.sb-batt {
+  position: relative; width: calc(25 * var(--pt)); height: calc(12 * var(--pt)); border-radius: calc(4 * var(--pt));
+  border: calc(1 * var(--pt)) solid rgba(0, 0, 0, 0.4); padding: calc(1.5 * var(--pt));
+  background: #000 content-box;
+}
 
 /* Favorite-dish banner drops in from the top of the dining screen */
 .ping-note {
@@ -392,15 +412,18 @@ html:has(.lp) body { background: none; }
 /* SRC pass: starts exactly over the pass in src.jpg, then peels off */
 .tv-pass {
   position: absolute; left: 4cqw; top: 19.6cqh; width: 92cqw;
-  visibility: hidden; transform-origin: 30% 50%;
+  transform-origin: 30% 50%;
   transform:
     translate(calc(var(--l, 0) * var(--pass-x, 30cqw)), calc(var(--l, 0) * 40cqh))
     rotate(calc(var(--l, 0) * -6deg)) scale(calc(1 + var(--l, 0) * 0.12));
 }
-/* the empty slot the pass leaves behind on the gym screen */
+/* the slot the pass leaves behind on the gym screen: a faint ghost of the barcode */
 .tv-slot {
   position: absolute; left: 4cqw; top: 19.6cqh; width: 92cqw; height: 16.4cqh;
-  border-radius: 4cqw; background: #f2eee6; outline: 1.5px dashed rgba(11, 30, 68, 0.25); outline-offset: -1.5px;
+  border-radius: 4cqw; outline: 1.5px dashed rgba(11, 30, 68, 0.22); outline-offset: -1.5px;
+  background:
+    repeating-linear-gradient(90deg, rgba(11, 30, 68, 0.07) 0 2px, transparent 2px 5px) 12cqw 6.5cqh / 68cqw 7cqh no-repeat,
+    #f2eee3;
   opacity: var(--l, 0);
 }
 .pass-card {
@@ -420,11 +443,14 @@ html:has(.lp) body { background: none; }
   position: absolute; z-index: 4; left: calc(100% + 18px); top: var(--y);
   display: flex; align-items: flex-start; gap: 8px;
   width: max-content; max-width: 220px; margin: 0;
-  opacity: 0; transform: translateY(calc((1 - var(--o, 0)) * 10px));
+  visibility: hidden; transform: translateY(calc((1 - var(--o, 0)) * 6px));
   font: 400 15px/1.4 var(--brand); color: var(--ink-2); text-wrap: balance;
   pointer-events: none;
 }
 .tv-note strong { font-weight: 600; color: var(--ink); }
+.tv-note > span { opacity: calc((var(--o, 0) - 0.3) / 0.7); }
+/* the arrow draws itself in before the words appear */
+.tv-note path { stroke-dasharray: 1; stroke-dashoffset: calc(1 - min(1, var(--o, 0) * 1.6)); }
 .tv-note svg {
   flex: none; width: 34px; height: 28px; margin-top: -8px;
   transform: scaleX(-1) rotate(-12deg);
@@ -433,21 +459,27 @@ html:has(.lp) body { background: none; }
 
 @media (max-width: 900px) {
   .tv-stage {
-    grid-template-columns: minmax(0, 1fr); grid-template-rows: auto minmax(0, 1fr);
-    gap: 14px; align-items: stretch; padding-top: 14px; padding-bottom: 14px;
+    grid-template-columns: minmax(0, 1fr); grid-template-rows: auto auto minmax(0, 1fr) auto;
+    gap: 10px; align-items: stretch; padding-top: 4px; padding-bottom: 12px;
   }
-  .tv-side { gap: 12px; }
+  /* side's children join the stage grid so the store link can sit under the phone */
+  .tv-side { display: contents; }
+  .tv-device { order: 3; }
+  .tv-cta { order: 4; justify-self: center; margin: 0; }
+  .tv-cta .store { height: 40px; }
   .tv-index { flex-direction: row; justify-content: space-between; gap: 0; }
-  .tv-index button { padding: 6px 0 9px; font-size: clamp(11px, 3vw, 13px); letter-spacing: -0.03em; }
-  .tv-mark { top: auto; bottom: 0; margin: 0; height: 3px; }
-  .tv-mark::before { width: auto; right: 0; }
+  .tv-index button { min-width: 44px; min-height: 44px; padding: 0 0 4px; font-size: clamp(11.5px, 3.1vw, 13px); letter-spacing: -0.03em; }
+  .tv-index button:first-child { text-align: left; }
+  .tv-index button:last-of-type { text-align: right; }
+  .tv-mark { top: auto; bottom: 6px; margin: 0; height: 3px; transform-origin: 0 0; transform: translateX(var(--x, 0)) scaleX(var(--w, 0)); }
+  .tv-mark::before { width: auto; right: 0; border-radius: 0; }
   .tv-copy h2 { margin-bottom: 6px; max-width: none; font-size: clamp(30px, 8.4vw, 44px); }
-  .tv-copy p { font-size: 12.5px; }
+  .tv-copy p { font-size: 13px; }
   .tv-device { height: 100%; justify-self: center; }
   .tv-pass { --pass-x: 0cqw; }
   /* notes become stickers across the bottom of the screen */
   .tv-note {
-    left: 7%; right: 7%; top: auto; bottom: 7%; width: auto; max-width: none;
+    left: 7%; right: 7%; top: auto; bottom: 14%; width: auto; max-width: none;
     padding: 10px 14px 11px 10px; border-radius: 14px;
     background: rgba(243, 238, 227, 0.86);
     -webkit-backdrop-filter: blur(20px) saturate(140%); backdrop-filter: blur(20px) saturate(140%);
@@ -462,17 +494,12 @@ html:has(.lp) body { background: none; }
 
 /* ---------- Classes tab, in iOS points (classes-screen.tsx) ---------- */
 .cs {
-  --pt: calc(100cqw / 393);
   position: absolute; inset: 0; overflow: hidden;
-  background: #f4f0e8; color: #0b1e44;
+  background: #f2eee3; color: #0b1e44;
   font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Text', var(--brand), sans-serif;
   -webkit-font-smoothing: antialiased; line-height: 1.2;
 }
 .cs > * { position: absolute; }
-.cs-status { top: calc(17 * var(--pt)); left: calc(46 * var(--pt)); right: calc(34 * var(--pt)); display: flex; justify-content: space-between; align-items: center; font-size: calc(17 * var(--pt)); }
-.cs-sig { display: flex; align-items: flex-end; gap: calc(2 * var(--pt)); height: calc(11 * var(--pt)); }
-.cs-sig i { width: calc(3 * var(--pt)); border-radius: 1px; background: #0b1e44; }
-.cs-sig i:nth-child(1) { height: 35%; } .cs-sig i:nth-child(2) { height: 55%; } .cs-sig i:nth-child(3) { height: 78%; } .cs-sig i:nth-child(4) { height: 100%; }
 .cs-term {
   top: calc(61 * var(--pt)); right: calc(16 * var(--pt)); padding: calc(10 * var(--pt)) calc(16 * var(--pt));
   border-radius: 99px; background: #faf8f3; box-shadow: 0 0 0 1px rgba(11, 30, 68, 0.08), 0 3px 8px rgba(11, 30, 68, 0.08);
@@ -498,10 +525,10 @@ html:has(.lp) body { background: none; }
 .cs-mate .cs-av::after {
   content: ''; position: absolute; inset: calc(-4 * var(--pt)); border-radius: 50%;
   border: calc(2.5 * var(--pt)) solid #ef9445;
-  opacity: var(--ring, 0); transform: scale(calc(1.25 - 0.25 * var(--ring, 0)));
+  opacity: var(--ring, 0); transform: scale(calc(0.7 + 0.3 * var(--ring-b, 0)));
 }
-.cs-mate .cs-av { box-shadow: 0 0 0 calc(var(--ring, 0) * 1.5 * var(--pt)) #f4f0e8; }
-.cs-gear { position: absolute; right: calc(-3 * var(--pt)); bottom: calc(-3 * var(--pt)); width: calc(20 * var(--pt)); height: calc(20 * var(--pt)); border-radius: 50%; background: #14213d; box-shadow: 0 0 0 calc(2 * var(--pt)) #f4f0e8; }
+.cs-mate .cs-av { box-shadow: 0 0 0 calc(var(--ring, 0) * 1.5 * var(--pt)) #f2eee3; }
+.cs-gear { position: absolute; right: calc(-3 * var(--pt)); bottom: calc(-3 * var(--pt)); width: calc(20 * var(--pt)); height: calc(20 * var(--pt)); border-radius: 50%; background: #14213d; box-shadow: 0 0 0 calc(2 * var(--pt)) #f2eee3; }
 .cs-gear::after { content: ''; position: absolute; inset: calc(6 * var(--pt)); border-radius: 50%; border: calc(2 * var(--pt)) solid #fff; }
 .cs-friends b { margin-top: calc(10 * var(--pt)); font-size: calc(13.5 * var(--pt)); font-weight: 500; }
 .cs-friends li > span { font-size: calc(12.5 * var(--pt)); color: #6b7280; }
@@ -535,7 +562,7 @@ html:has(.lp) body { background: none; }
 /* now: a red dot and line on today's column at --now minutes after 8a */
 .cs-now {
   left: calc(162 * var(--pt)); width: calc(64 * var(--pt)); height: calc(2 * var(--pt));
-  top: calc((31 + var(--now, 0) / 60 * 52.8) * var(--pt));
+  top: calc(31 * var(--pt)); transform: translateY(calc(var(--now, 0) / 60 * 52.8 * var(--pt)));
   background: #e5483f; opacity: var(--live, 0); z-index: 2;
 }
 .cs-now::before { content: ''; position: absolute; left: calc(-4 * var(--pt)); top: calc(-3.5 * var(--pt)); width: calc(9 * var(--pt)); height: calc(9 * var(--pt)); border-radius: 50%; background: #e5483f; }

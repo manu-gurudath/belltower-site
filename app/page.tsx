@@ -83,7 +83,7 @@ export default function Home() {
         <HeroPhoto />
       </section>
 
-      <Tour />
+      <Tour cta={<AppStoreButton />} />
 
       <section className="lp-siri">
         <blockquote>&ldquo;What&rsquo;s for dinner at Glasgow in Belltower?&rdquo;</blockquote>
