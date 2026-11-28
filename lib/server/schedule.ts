@@ -1,3 +1,6 @@
+import { waitUntil } from '@vercel/functions';
+
+import { query } from './db';
 import { HttpError } from './http';
 
 /** What a friend sees of one class: times and rooms, never seats, CRN-level registration data or instructors' emails. */
@@ -70,4 +73,18 @@ export function cleanSections(value: unknown): SharedSection[] {
 export function cleanTerm(value: string): string {
   if (!/^\d{6}$/.test(value)) throw new HttpError(400, 'Invalid term');
   return value;
+}
+
+const PURGE_EVERY = 60 * 60_000;
+let purgedAt = 0;
+
+/**
+ * Deletes schedules from past years. Term codes start with the year (Fall 2026 is 202640, Winter 2027 is 202710) and winter quarter starts
+ * the year, so on January 1 every older term has ended. The app clears its own old terms; this catches people who
+ * stopped opening it. Runs at most hourly per instance, after the response.
+ */
+export function purgeEndedTerms() {
+  if (Date.now() - purgedAt < PURGE_EVERY) return;
+  purgedAt = Date.now();
+  waitUntil(query('delete from schedules where term < $1', [`${new Date().getUTCFullYear()}00`]).catch(() => {}));
 }

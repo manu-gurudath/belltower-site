@@ -1,7 +1,7 @@
 import { requireUser } from '../../../lib/server/auth';
 import { query } from '../../../lib/server/db';
 import { handle, json } from '../../../lib/server/http';
-import { cleanTerm, type SharedSection } from '../../../lib/server/schedule';
+import { cleanTerm, purgeEndedTerms, type SharedSection } from '../../../lib/server/schedule';
 
 type Row = {
   id: string;
@@ -17,6 +17,7 @@ type Row = {
  */
 export const GET = handle(async (req: Request) => {
   const me = await requireUser(req);
+  purgeEndedTerms();
   const terms = (new URL(req.url).searchParams.get('terms') ?? '').split(',').filter(Boolean).slice(0, 4).map(cleanTerm);
   const rows = await query<Row>(
     `with mine as (
